@@ -584,6 +584,23 @@
   .chip.pay { background: #fff8e6; border-color: #e8c468; color: #8a6600; }
   .chip.unk { background: #f2f4f8; border-color: #cdd6e5; color: var(--gray); }
 
+  .period-tag {
+    color: #fff; border-radius: 20px; padding: 3px 11px;
+    font-size: 11.5px; font-weight: 700; white-space: nowrap;
+  }
+
+  .steps { margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 9px; }
+  .step {
+    display: flex; align-items: baseline; gap: 7px;
+    font-size: 12.5px; line-height: 1.6; padding: 2px 0;
+  }
+  .step .s-ic { font-size: 11px; flex-shrink: 0; }
+  .step .s-t { flex: 1; }
+  .step .s-d { color: var(--text-soft); font-size: 12px; white-space: nowrap; }
+  .step.wait { color: #8a6600; }
+  .step.wait .s-t { font-weight: 600; }
+  .step.wait .s-d { color: #8a6600; font-weight: 700; }
+
   .period-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
   @media (max-width: 700px) { .period-meta { grid-template-columns: 1fr; } }
   .pm-box { background: #f7f9fd; border: 1px solid var(--border); border-radius: 9px; padding: 10px 13px; }
@@ -964,6 +981,20 @@
   <p class="lead" style="font-size:13.5px;">הקו TLV–נריטה מופעל רק בחלק מימי השבוע, ולכן לא כל תאריך אפשרי. אלה התאריכים שנבדקו ולא נמצאה בהם טיסה ישירה:</p>
   <div class="nofly-list" id="noflyList"></div>
 
+  <h2 class="section-title">חזרה משדה אחר (Open Jaw) — נבדק</h2>
+  <div class="notice">
+    <div class="t">🔍 מה נבדק</div>
+    הרעיון: לטוס לטוקיו ולחזור מאוסקה (קנסאי, <span class="ltr-num">KIX</span>), כדי לא לחזור צפונה בסוף הטיול. בדקנו את זה, ואלה הממצאים:
+    <ul style="margin:8px 0 0; padding-inline-start:20px; line-height:1.75;">
+      <li><b>אין טיסה ישירה מאוסקה לתל אביב.</b> הישירות היחידות הן מנריטה. חזרה מאוסקה מחייבת קונקשן — כלומר מוותרים על היתרון המרכזי.</li>
+      <li><b>לא הצלחנו לתמחר את זה לקיץ <span class="ltr-num">2027</span>.</b> חיפוש <span class="ltr-num">KIX→TLV</span> לתאריכים האלה חוזר ריק. לשם השוואה, אותו חיפוש לדצמבר <span class="ltr-num">2026</span> כן עובד (מ-<span class="ltr-num">₪1,840</span> עם עצירות) — כלומר המסלול קיים, אבל המלאי לקיץ <span class="ltr-num">2027</span> עדיין לא נטען.</li>
+      <li>לכן <b>אין כרגע מספר אמיתי להשוות אליו</b>, ולא נרשם כאן מחיר משוער.</li>
+    </ul>
+    <div style="margin-top:9px;">
+      <b>המסקנה בינתיים:</b> החזרה הישירה מטוקיו היא גם הזולה וגם הנוחה, ולכן הלולאה חזרה לטוקיו נשארת ההנחה. הבדיקה היומית תנסה את <span class="ltr-num">KIX→TLV</span> בכל הרצה, וברגע שיהיה מחיר — נשווה, ואם יתברר שהוא משתלם נעדכן את המסלול בהתאם.
+    </div>
+  </div>
+
   <h2 class="section-title">מתי הכי כדאי לקנות</h2>
   <div id="buyAdvice">
     <div class="notice">
@@ -1181,6 +1212,40 @@
     </a>
   </div>
 
+  <h2 class="section-title">מידע על יפן בעברית</h2>
+  <p class="lead" style="font-size:13.5px;">מקורות בעברית להעמקה לפני הטיול — מדריכים, פורומים וקהילות של מטיילים ישראלים ביפן.</p>
+  <div class="link-grid">
+    <a class="link-card" href="https://www.lametayel.co.il/asia/japan" target="_blank" rel="noopener">
+      <span class="lic">🎒</span><span class="ltxt"><div class="lt1">למטייל — יפן</div><div class="lt2">מדריך מקיף בעברית, מסלולים וטיפים</div></span>
+    </a>
+    <a class="link-card" href="https://www.masa.co.il/article-category/japan/" target="_blank" rel="noopener">
+      <span class="lic">📰</span><span class="ltxt"><div class="lt1">מסע אחר — כתבות על יפן</div><div class="lt2">כתבות עומק בעברית</div></span>
+    </a>
+    <a class="link-card" href="https://he.wikipedia.org/wiki/%D7%99%D7%A4%D7%9F" target="_blank" rel="noopener">
+      <span class="lic">📖</span><span class="ltxt"><div class="lt1">ויקיפדיה — יפן</div><div class="lt2">רקע כללי, היסטוריה ותרבות</div></span>
+    </a>
+    <a class="link-card" href="https://www.gojapan.co.il/" target="_blank" rel="noopener">
+      <span class="lic">🗾</span><span class="ltxt"><div class="lt1">GoJapan — מידע בעברית</div><div class="lt2">אתר ישראלי המתמחה ביפן</div></span>
+    </a>
+    <a class="link-card" href="https://www.tripadvisor.co.il/Tourism-g294232-Japan-Vacations.html" target="_blank" rel="noopener">
+      <span class="lic">⭐</span><span class="ltxt"><div class="lt1">TripAdvisor יפן — בעברית</div><div class="lt2">ביקורות ודירוגי אתרים</div></span>
+    </a>
+    <a class="link-card" href="https://www.rome2rio.com/he/" target="_blank" rel="noopener">
+      <span class="lic">🚉</span><span class="ltxt"><div class="lt1">Rome2Rio בעברית</div><div class="lt2">איך מגיעים מנקודה לנקודה ביפן</div></span>
+    </a>
+    <a class="link-card" href="https://www.japan.travel/en/il/" target="_blank" rel="noopener">
+      <span class="lic">🏯</span><span class="ltxt"><div class="lt1">משרד התיירות היפני — ישראל</div><div class="lt2">האתר הרשמי, עמוד לישראלים</div></span>
+    </a>
+    <a class="link-card" href="https://www.facebook.com/groups/japantripsisrael/" target="_blank" rel="noopener">
+      <span class="lic">💬</span><span class="ltxt"><div class="lt1">קבוצת פייסבוק — מטיילים ביפן</div><div class="lt2">שאלות ותשובות מישראלים שהיו שם</div></span>
+    </a>
+  </div>
+
+  <div class="notice info" style="margin-top:14px;">
+    <div class="t">ℹ️ הערה על הקישורים</div>
+    הקישורים נבדקו כתקינים במבנה, אבל תוכן האתרים משתנה. אם קישור נשבר — תגידו ואחליף אותו.
+  </div>
+
 </section>
 
 </main>
@@ -1203,38 +1268,41 @@
   "windowFrom": "21/06/2027",
   "windowTo": "31/07/2027",
   "windowsLabel": "3 תקופות במעקב: יוני–יולי · אפריל · אוקטובר 2027",
-  "horizonNote": "מנועי החיפוש פותחים מלאי עד כ-330 יום קדימה. נכון לבדיקה הזו, החלק השני של החלון (בערך מאמצע יולי 2027 והלאה) עדיין לא נפתח למכירה — הוא ייפתח בהדרגה, יום ביום. זו בדיוק הסיבה שהבדיקה רצה כל יום.",
+  "horizonNote": "כל מסלול צבוע בצבע התקופה שלו. הרשימה כוללת טיסות ישירות וגם טיסות עם קונקשן אחד — <b>אך ורק כאלה שזמן ההמתנה בהן אינו עולה על 4 שעות</b>. בכותרת כל מסלול מופיע זמן המסע הכולל, ומתחתיו פירוט הקטעים. <b>עדכון חשוב:</b> בבדיקה קודמת נרשם שסוף יולי ואוגוסט 2027 עדיין לא נמכרים — <b>זה התברר כלא נכון</b>. התאריכים האלה נמכרים, והם אף יצאו הזולים ביותר. מה שבאמת חוסם תאריכים הוא ימי ההפעלה של הקו (הוא לא מופעל כל יום), ואוקטובר 2027 שרחוק מדי מהאופק.",
   "periods": [
     {
-      "id": "jun-jul-2027",
-      "name": "סוף יוני – יולי 2027",
-      "sub": "התוכנית הנוכחית",
+      "id": "summer-2027",
+      "color": "#d35400",
+      "name": "21 ביוני – 20 באוגוסט 2027",
+      "sub": "התוכנית הנוכחית · קיץ",
       "rec": true,
       "recTag": "⭐ הזול ביותר — וההמלצה",
       "priceLabel": "הזול שנמצא, ישיר, לנוסע",
-      "priceValue": "<span class=\"ltr-num\">₪3,790</span>",
-      "priceSub": "ארקיע, <span class=\"ltr-num\">23/06→07/07/2027</span>",
+      "priceValue": "<span class=\"ltr-num\">₪3,663</span>",
+      "priceSub": "ארקיע, <span class=\"ltr-num\">21/07→04/08/2027</span>",
       "blocked": false,
       "weather": "החם והלח בשנה. טוקיו <span class=\"ltr-num\">29–31°</span> ביום, קיוטו חמה עוד יותר, <span class=\"ltr-num\">33–35°</span>, עם לחות גבוהה מאוד. עונת הגשמים (צוּיוּ) בדרך כלל מסתיימת באמצע-סוף יולי, כך שתחילת החודש עדיין גשומה.",
       "season": "עונת שיא בישראל אבל לא ביפן — היפנים עצמם נוסעים באוגוסט. פסטיבל גיון בקיוטו לאורך יולי, עם התהלוכות הגדולות ב-<span class=\"ltr-num\">17/7</span> וב-<span class=\"ltr-num\">24/7</span>.",
       "school": "חופש הגדול — אין שום התנגשות עם בית הספר. אין חגים יהודיים בתקופה.",
       "pros": [
-        "<b>הכי זול מבין השלוש בפער גדול</b> — <span class=\"ltr-num\">₪3,790</span> מול <span class=\"ltr-num\">₪5,741</span> באפריל, הפרש של כמעט <span class=\"ltr-num\">₪2,000</span> לנוסע (כ-<span class=\"ltr-num\">₪5,850</span> לשלושתכם).",
+        "<b>הכי זול מבין השלוש בפער גדול</b> — <span class=\"ltr-num\">₪3,663</span> מול <span class=\"ltr-num\">₪5,741</span> באפריל, הפרש של כ-<span class=\"ltr-num\">₪2,080</span> לנוסע (כ-<span class=\"ltr-num\">₪6,230</span> לשלושתכם).",
         "חופש הגדול — אין צורך להוציא את הילד מבית הספר ואין חגים שמפריעים.",
+        "<b>החלון הורחב עד <span class=\"ltr-num\">20/08</span></b>, והתאריכים המאוחרים דווקא יצאו הזולים ביותר.",
         "ימים ארוכים מאוד, אור עד מאוחר — מספיקים הרבה יותר בכל יום.",
-        "פסטיבל גיון בקיוטו, אחד האירועים הגדולים ביפן.",
-        "התקופה היחידה מהשלוש שכבר ניתנת להזמנה היום."
+        "פסטיבל גיון בקיוטו לאורך יולי, אחד האירועים הגדולים ביפן."
       ],
       "cons": [
         "החום והלחות הם באמת קשים — במיוחד לילד ולסבב מקדשים ארוך בקיוטו.",
-        "תחילת יולי עדיין בעונת הגשמים; יש סיכוי ליום-יומיים אבודים.",
-        "תחילת עונת הטייפונים.",
+        "תחילת יולי עדיין בעונת הגשמים; יש סיכוי ליום-יומיים אבודים. אוגוסט כבר יבש יותר אבל חם יותר.",
+        "עונת הטייפונים מתחילה, ומתחזקת באוגוסט.",
+        "אוגוסט הוא חופשת אובון ביפן — היפנים עצמם מטיילים, ומחירי הלינה הפנימיים עולים.",
         "אין פריחת דובדבן ואין שלכת."
       ],
-      "verdict": "למרות החום — זו ההמלצה. הפער במחיר עצום, אין התנגשות עם לימודים או חגים, וגיון הוא ערך מוסף אמיתי. את החום מנהלים: מתחילים מוקדם בבוקר, קובעים מוזיאון או קניון ממוזג לשעות <span class=\"ltr-num\">13:00–16:00</span>, ומכניסים לילה בהרים (הקונה או טקאיאמה) כהפוגה."
+      "verdict": "למרות החום — זו ההמלצה. הפער במחיר גדול, אין התנגשות עם לימודים או חגים, וגיון הוא ערך מוסף אמיתי. את החום מנהלים: מתחילים מוקדם בבוקר, קובעים מוזיאון או קניון ממוזג לשעות <span class=\"ltr-num\">13:00–16:00</span>, ומכניסים לילה בהרים (הקונה או טקאיאמה) כהפוגה. <b>הרחבת החלון עד <span class=\"ltr-num\">20/08</span> הוכיחה את עצמה מיד</b> — הזוג <span class=\"ltr-num\">21/07→04/08</span> יצא זול יותר מסוף יוני."
     },
     {
       "id": "apr-2027",
+      "color": "#c2185b",
       "name": "אפריל 2027",
       "sub": "עונת פריחת הדובדבן",
       "rec": false,
@@ -1263,6 +1331,7 @@
     },
     {
       "id": "oct-2027",
+      "color": "#8d6e00",
       "name": "אוקטובר 2027",
       "sub": "סתיו",
       "rec": false,
@@ -1291,12 +1360,116 @@
   ],
   "options": [
     {
+      "id": "0721-0804-arkia-arkia",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
+      "label": "ארקיע הלוך-חזור · ישיר",
+      "best": true,
+      "bestTag": "הזול ביותר בכל הבדיקה",
+      "depDate": "יום ד׳, 21/07/2027",
+      "retDate": "יום ד׳, 04/08/2027",
+      "out":  { "dep": "00:30", "from": "TLV", "arr": "18:45", "to": "NRT", "total": "12ש׳ 15ד׳", "plus": 0,
+                "legs": [ { "k": "fly", "t": "תל אביב ← טוקיו נריטה", "d": "12ש׳ 15ד׳ · ישירה" } ] },
+      "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "total": "14ש׳ 30ד׳", "plus": 1,
+                "legs": [ { "k": "fly", "t": "טוקיו נריטה ← תל אביב", "d": "14ש׳ 30ד׳ · ישירה" } ] },
+      "priceHistory": [ { "d": "2026-08-07", "p": 3663 } ],
+      "included": ["ישירה לשני הכיוונים", "מטוס איירבוס A330 רחב-גוף"],
+      "toPay": [],
+      "unknown": ["מזוודה — מדיניות הקו לטוקיו טרם אומתה", "ארוחות — טרם אומת מה כלול"]
+    },
+    {
+      "id": "0721-0804-icn-arkia",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
+      "label": "קונקשן בסיאול · חזור ישיר",
+      "best": false,
+      "bestTag": "קונקשן קצר — 1ש׳ 55ד׳",
+      "depDate": "יום ד׳, 21/07/2027",
+      "retDate": "יום ד׳, 04/08/2027",
+      "out":  { "dep": "23:45", "from": "TLV", "arr": "19:45", "to": "NRT", "total": "14ש׳ 00ד׳", "plus": 1,
+                "legs": [
+                  { "k": "fly",  "t": "תל אביב ← סיאול (ICN)", "d": "" },
+                  { "k": "wait", "t": "המתנה בסיאול, נמל התעופה אינצ׳ון", "d": "1ש׳ 55ד׳" },
+                  { "k": "fly",  "t": "סיאול ← טוקיו נריטה", "d": "" }
+                ] },
+      "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "total": "14ש׳ 30ד׳", "plus": 1,
+                "legs": [ { "k": "fly", "t": "טוקיו נריטה ← תל אביב", "d": "14ש׳ 30ד׳ · ישירה · ארקיע" } ] },
+      "priceHistory": [ { "d": "2026-08-07", "p": 3684 } ],
+      "included": ["ההמתנה קצרה מאוד ביחס לקונקשן טיפוסי"],
+      "toPay": [],
+      "unknown": ["זמני הקטעים הבודדים — מופיעים רק בדף ההזמנה", "שילוב חברות — לבדוק אם המזוודה עוברת עד היעד"]
+    },
+    {
+      "id": "0721-0804-elal-arkia",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
+      "label": "אל על הלוך, ארקיע חזור · ישיר",
+      "best": false,
+      "bestTag": "המסע הקצר ביותר",
+      "depDate": "יום ד׳, 21/07/2027",
+      "retDate": "יום ד׳, 04/08/2027",
+      "out":  { "dep": "19:45", "from": "TLV", "arr": "13:20", "to": "NRT", "total": "11ש׳ 35ד׳", "plus": 1,
+                "legs": [ { "k": "fly", "t": "תל אביב ← טוקיו נריטה", "d": "11ש׳ 35ד׳ · ישירה · אל על" } ] },
+      "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "total": "14ש׳ 30ד׳", "plus": 1,
+                "legs": [ { "k": "fly", "t": "טוקיו נריטה ← תל אביב", "d": "14ש׳ 30ד׳ · ישירה · ארקיע" } ] },
+      "priceHistory": [ { "d": "2026-08-07", "p": 3759 } ],
+      "included": ["ישירה לשני הכיוונים", "ארוחות כשרות בקטע של אל על"],
+      "toPay": [],
+      "unknown": ["שני כרטיסים נפרדים — שינוי באחד לא מזכה בשינוי בשני"]
+    },
+    {
+      "id": "0721-0804-dxb225-arkia",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
+      "label": "קונקשן בדובאי · חזור ישיר",
+      "best": false,
+      "bestTag": "קונקשן 2ש׳ 25ד׳",
+      "depDate": "יום ד׳, 21/07/2027",
+      "retDate": "יום ד׳, 04/08/2027",
+      "out":  { "dep": "15:50", "from": "TLV", "arr": "13:30", "to": "NRT", "total": "15ש׳ 40ד׳", "plus": 1,
+                "legs": [
+                  { "k": "fly",  "t": "תל אביב ← דובאי (DXB)", "d": "" },
+                  { "k": "wait", "t": "המתנה בדובאי", "d": "2ש׳ 25ד׳" },
+                  { "k": "fly",  "t": "דובאי ← טוקיו נריטה", "d": "" }
+                ] },
+      "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "total": "14ש׳ 30ד׳", "plus": 1,
+                "legs": [ { "k": "fly", "t": "טוקיו נריטה ← תל אביב", "d": "14ש׳ 30ד׳ · ישירה · ארקיע" } ] },
+      "priceHistory": [ { "d": "2026-08-07", "p": 3942 } ],
+      "included": ["Emirates בקטע הארוך — מטוס ובידור טובים"],
+      "toPay": [],
+      "unknown": ["זמני הקטעים הבודדים", "מזוודה בשילוב Emirates + ארקיע"]
+    },
+    {
+      "id": "0721-0804-dxb235-arkia",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
+      "label": "קונקשן בדובאי (יציאה בערב) · חזור ישיר",
+      "best": false,
+      "bestTag": "קונקשן 2ש׳ 35ד׳",
+      "depDate": "יום ד׳, 21/07/2027",
+      "retDate": "יום ד׳, 04/08/2027",
+      "out":  { "dep": "19:45", "from": "TLV", "arr": "17:35", "to": "NRT", "total": "15ש׳ 50ד׳", "plus": 1,
+                "legs": [
+                  { "k": "fly",  "t": "תל אביב ← דובאי (DXB)", "d": "" },
+                  { "k": "wait", "t": "המתנה בדובאי", "d": "2ש׳ 35ד׳" },
+                  { "k": "fly",  "t": "דובאי ← טוקיו נריטה", "d": "" }
+                ] },
+      "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "total": "14ש׳ 30ד׳", "plus": 1,
+                "legs": [ { "k": "fly", "t": "טוקיו נריטה ← תל אביב", "d": "14ש׳ 30ד׳ · ישירה · ארקיע" } ] },
+      "priceHistory": [ { "d": "2026-08-07", "p": 4143 } ],
+      "included": ["יציאה בשעה נוחה יותר מחצות"],
+      "toPay": [],
+      "unknown": ["זמני הקטעים הבודדים", "מזוודה בשילוב Emirates + ארקיע"]
+    },
+    {
       "id": "0623-0707-arkia-arkia",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
       "airlineOut": "ארקיע",
       "airlineBack": "ארקיע",
-      "label": "ארקיע הלוך-חזור",
-      "best": true,
-      "bestTag": "הזול ביותר בבדיקה",
+      "label": "ארקיע הלוך-חזור · ישיר",
+      "best": false,
+      "bestTag": "הזול בסוף יוני",
       "depDate": "יום ד׳, 23/06/2027",
       "retDate": "יום ד׳, 07/07/2027",
       "out":  { "dep": "00:30", "from": "TLV", "arr": "18:45", "to": "NRT", "dur": "12ש׳ 15ד׳", "plus": 0 },
@@ -1308,6 +1481,8 @@
     },
     {
       "id": "0623-0707-elal-elal",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
       "airlineOut": "אל על",
       "airlineBack": "אל על",
       "label": "אל על הלוך-חזור",
@@ -1324,6 +1499,8 @@
     },
     {
       "id": "0623-0707-arkia-elal",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
       "airlineOut": "ארקיע",
       "airlineBack": "אל על",
       "label": "משולב — ארקיע הלוך, אל על חזור",
@@ -1340,6 +1517,8 @@
     },
     {
       "id": "0623-0707-elal-arkia",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
       "airlineOut": "אל על",
       "airlineBack": "ארקיע",
       "label": "משולב — אל על הלוך, ארקיע חזור",
@@ -1357,6 +1536,8 @@
     ,
     {
       "id": "0407-0421-arkia-arkia",
+      "period": "apr-2027",
+      "periodName": "אפריל 2027",
       "airlineOut": "ארקיע",
       "airlineBack": "ארקיע",
       "label": "אפריל · ארקיע הלוך-חזור",
@@ -1373,6 +1554,8 @@
     },
     {
       "id": "0407-0421-elal-arkia",
+      "period": "apr-2027",
+      "periodName": "אפריל 2027",
       "airlineOut": "אל על",
       "airlineBack": "ארקיע",
       "label": "אפריל · משולב — אל על הלוך, ארקיע חזור",
@@ -1617,17 +1800,34 @@
            ' · קודם <span class="prev ltr-num">₪' + prev.toLocaleString('en-US') + '</span></div>';
   }
 
-  function legHtml(dirLabel, dateLabel, leg) {
-    var plus = leg.plus ? '<span class="plus ltr-num">+' + leg.plus + '</span>' : '';
+  /* Falls back to the older {dur} shape for entries written before legs existed. */
+  function legTotal(dir) { return dir.total || dir.dur || ''; }
+  function legSteps(dir) {
+    if (dir.legs && dir.legs.length) return dir.legs;
+    return [ { k: 'fly', t: dir.from + ' ← ' + dir.to, d: (dir.dur || '') + ' · ישירה' } ];
+  }
+
+  function legHtml(dirLabel, dateLabel, dir) {
+    var plus = dir.plus ? '<span class="plus ltr-num">+' + dir.plus + '</span>' : '';
+    var steps = legSteps(dir).map(function(s){
+      if (s.k === 'wait') {
+        return '<div class="step wait"><span class="s-ic">⏳</span><span class="s-t">' + s.t + '</span>' +
+               '<span class="s-d">' + s.d + '</span></div>';
+      }
+      return '<div class="step"><span class="s-ic">✈️</span><span class="s-t">' + s.t + '</span>' +
+             (s.d ? '<span class="s-d">' + s.d + '</span>' : '') + '</div>';
+    }).join('');
+
     return '<div class="leg-box">' +
-      '<div class="lb-dir">' + dirLabel + '</div>' +
+      '<div class="lb-dir">' + dirLabel + ' · סה״כ מסע <b>' + legTotal(dir) + '</b></div>' +
       '<div class="lb-date">' + dateLabel + '</div>' +
       '<div class="lb-times">' +
-        '<div class="pt"><div class="tm ltr-num">' + leg.dep + '</div><div class="ap">' + leg.from + '</div></div>' +
-        '<div class="mid"><div class="dur">' + leg.dur + ' · ישירה</div></div>' +
-        '<div class="pt"><div class="tm ltr-num">' + leg.arr + '</div>' + plus +
-          '<div class="ap">' + leg.to + '</div></div>' +
-      '</div></div>';
+        '<div class="pt"><div class="tm ltr-num">' + dir.dep + '</div><div class="ap">' + dir.from + '</div></div>' +
+        '<div class="mid"><div class="dur">' + legTotal(dir) + '</div></div>' +
+        '<div class="pt"><div class="tm ltr-num">' + dir.arr + '</div>' + plus +
+          '<div class="ap">' + dir.to + '</div></div>' +
+      '</div>' +
+      '<div class="steps">' + steps + '</div></div>';
   }
 
   function chips(list, cls) {
@@ -1649,9 +1849,9 @@
 
     document.getElementById('periodsList').innerHTML = (D.periods || []).map(function(p){
       var tag = p.recTag ? '<span class="fc-tag' + (p.rec ? ' green' : '') + '">' + p.recTag + '</span>' : '';
-      return '<div class="route-card' + (p.rec ? ' is-rec' : '') + '">' +
+      return '<div class="route-card' + (p.rec ? ' is-rec' : '') + '" style="border-inline-start:6px solid ' + (p.color || '#7f8c8d') + ';">' +
         '<div class="route-head">' +
-          '<span class="rtitle">' + p.name + '</span>' + tag +
+          '<span class="period-tag" style="background:' + (p.color || '#7f8c8d') + '">' + p.name + '</span>' + tag +
           '<span style="color:var(--text-soft); font-size:13px;">' + p.sub + '</span>' +
         '</div>' +
         '<div class="route-body">' +
@@ -1671,23 +1871,28 @@
         '</div></div>';
     }).join('');
 
+    var colorOf = {};
+    (D.periods || []).forEach(function(p){ colorOf[p.id] = p.color || '#7f8c8d'; });
+
     document.getElementById('flightsList').innerHTML = D.options.map(function(o){
+      var col = colorOf[o.period] || '#7f8c8d';
       var tag = o.bestTag ? '<span class="fc-tag' + (o.best ? ' green' : '') + '">' + o.bestTag + '</span>' : '';
+      var pTag = o.periodName ? '<span class="period-tag" style="background:' + col + '">' + o.periodName + '</span>' : '';
       var last = o.priceHistory[o.priceHistory.length - 1];
       var ex = '';
       if (o.included.length) ex += '<div class="fx-t">✔ כלול</div><div class="chip-row">' + chips(o.included, 'inc') + '</div>';
       if (o.toPay.length)   ex += '<div class="fx-t" style="margin-top:9px;">💳 בתשלום</div><div class="chip-row">' + chips(o.toPay, 'pay') + '</div>';
       if (o.unknown.length) ex += '<div class="fx-t" style="margin-top:9px;">❔ טרם אומת</div><div class="chip-row">' + chips(o.unknown, 'unk') + '</div>';
 
-      return '<div class="flight-card' + (o.best ? ' best' : '') + '">' +
+      return '<div class="flight-card' + (o.best ? ' best' : '') + '" style="border-inline-start:5px solid ' + col + ';">' +
         '<div class="fc-head">' +
-          '<span class="fc-air">' + o.label + '</span>' + tag +
+          pTag + '<span class="fc-air">' + o.label + '</span>' + tag +
           '<span class="fc-price"><div class="fp-now">' + nis(last.p) + '</div>' +
           '<div class="fp-per">לנוסע · הלוך-חזור</div>' + deltaHtml(o.priceHistory) + '</span>' +
         '</div>' +
         '<div class="legs">' +
-          legHtml('הלוך · ' + o.airlineOut, o.depDate, o.out) +
-          legHtml('חזור · ' + o.airlineBack, o.retDate, o.back) +
+          legHtml('הלוך' + (o.airlineOut ? ' · ' + o.airlineOut : ''), o.depDate, o.out) +
+          legHtml('חזור' + (o.airlineBack ? ' · ' + o.airlineBack : ''), o.retDate, o.back) +
         '</div>' +
         '<div class="fc-extras">' + ex + '</div>' +
       '</div>';
