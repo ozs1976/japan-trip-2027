@@ -549,7 +549,19 @@
   .fc-head .fc-tag.green { background: var(--green); color: #fff; }
   .fc-head .fc-price { margin-inline-start: auto; text-align: end; }
   .fc-price .fp-now { font-size: 21px; font-weight: 800; color: var(--navy); }
+  .fc-price .fp-usd { font-size: 13px; font-weight: 600; color: var(--text-soft); margin-top: -1px; }
   .fc-price .fp-per { font-size: 11.5px; color: var(--text-soft); }
+
+  .alt-note {
+    display: flex; gap: 8px; align-items: flex-start;
+    border-top: 1px solid var(--border);
+    background: #fff8e6;
+    padding: 11px 16px;
+    font-size: 13px;
+    line-height: 1.65;
+    color: #6b5200;
+  }
+  .alt-note .an-ic { flex-shrink: 0; }
 
   .delta { font-size: 13px; font-weight: 700; white-space: nowrap; }
   .delta.down { color: var(--green); }
@@ -1270,6 +1282,8 @@
   "lastCheckedLabel": "7 באוגוסט 2026, 18:40",
   "source": "KAYAK (il.kayak.com)",
   "paxNote": "המחירים הם לנוסע אחד, הלוך-חזור, לפני מזוודות",
+  "fxUsd": 3.00836,
+  "fxLabel": "שער שנקרא בבדיקה: <span class=\"ltr-num\">1 USD = 3.00836 ₪</span> (Xe, אמצע שוק)",
   "windowFrom": "21/06/2027",
   "windowTo": "20/08/2027",
   "windowsLabel": "3 תקופות במעקב: קיץ · אפריל · אוקטובר 2027",
@@ -1284,6 +1298,7 @@
       "recTag": "⭐ הזול ביותר — וההמלצה",
       "priceLabel": "הזול שנמצא, ישיר, לנוסע",
       "priceValue": "<span class=\"ltr-num\">₪3,423</span>",
+      "priceNum": 3423,
       "priceSub": "אל על ישיר, <span class=\"ltr-num\">07/07→20/07/2027</span> (13 לילות)",
       "blocked": false,
       "weather": "החם והלח בשנה. טוקיו <span class=\"ltr-num\">29–31°</span> ביום, קיוטו חמה עוד יותר, <span class=\"ltr-num\">33–35°</span>, עם לחות גבוהה מאוד. עונת הגשמים (צוּיוּ) בדרך כלל מסתיימת באמצע-סוף יולי, כך שתחילת החודש עדיין גשומה.",
@@ -1315,6 +1330,7 @@
       "recTag": "היפה ביותר — והיקר",
       "priceLabel": "הזול שנמצא, ישיר, לנוסע",
       "priceValue": "<span class=\"ltr-num\">₪5,741</span>",
+      "priceNum": 5741,
       "priceSub": "ארקיע, <span class=\"ltr-num\">07/04→21/04/2027</span>",
       "blocked": false,
       "weather": "הנעים ביותר מבין השלושה. טוקיו בערך <span class=\"ltr-num\">11–19°</span>, יבש יחסית, אביב קלאסי. צריך שכבה לערבים.",
@@ -1402,28 +1418,41 @@
       "unknown": ["הלילה ה-14 עולה <span class=\"ltr-num\">₪150</span> לנוסע — כ-<span class=\"ltr-num\">₪450</span> למשפחה"]
     },
     {
+      "id": "0707-0722",
+      "period": "summer-2027",
+      "periodName": "קיץ 2027",
+      "label": "אל על ישיר · 15 לילות",
+      "best": false,
+      "bestTag": "אותה יציאה, יומיים יותר",
+      "depDate": "יום ד׳, 07/07/2027",
+      "retDate": "יום ה׳, 22/07/2027",
+      "out":  { "dep": "19:45", "from": "TLV", "arr": "13:20", "to": "NRT", "total": "11ש׳ 35ד׳", "plus": 1,
+                "legs": [ { "k": "fly", "t": "תל אביב ← טוקיו נריטה", "d": "11ש׳ 35ד׳ · ישירה" } ] },
+      "back": { "dep": "15:35", "from": "NRT", "arr": "22:20", "to": "TLV", "total": "12ש׳ 45ד׳", "plus": 0,
+                "legs": [ { "k": "fly", "t": "טוקיו נריטה ← תל אביב", "d": "12ש׳ 45ד׳ · ישירה" } ] },
+      "priceHistory": [ { "d": "2026-08-07", "p": 3713 } ],
+      "included": ["ישירה לשני הכיוונים", "ארוחות כשרות כברירת מחדל"],
+      "toPay": [],
+      "unknown": ["שני הלילות הנוספים עולים <span class=\"ltr-num\">₪290</span> לנוסע מול 13 לילות"]
+    },
+    {
       "id": "0714-0728",
       "period": "summer-2027",
       "periodName": "קיץ 2027",
-      "label": "קונקשן אתונה + וינה · 14 לילות",
+      "label": "ארקיע ישיר · 14 לילות",
       "best": false,
-      "bestTag": "הזול בתאריכים האלה",
+      "bestTag": "הישירה בתאריכים האלה",
       "depDate": "יום ד׳, 14/07/2027",
       "retDate": "יום ד׳, 28/07/2027",
-      "out":  { "dep": "05:00", "from": "TLV", "arr": "08:50", "to": "NRT", "total": "21ש׳ 50ד׳", "plus": 1,
-                "legs": [
-                  { "k": "fly",  "t": "תל אביב ← אתונה (ATH)", "d": "" },
-                  { "k": "wait", "t": "המתנה באתונה", "d": "2ש׳ 10ד׳" },
-                  { "k": "fly",  "t": "אתונה ← וינה (VIE)", "d": "" },
-                  { "k": "wait", "t": "המתנה בוינה", "d": "2ש׳ 50ד׳" },
-                  { "k": "fly",  "t": "וינה ← טוקיו נריטה", "d": "" }
-                ] },
+      "out":  { "dep": "00:30", "from": "TLV", "arr": "18:45", "to": "NRT", "total": "12ש׳ 15ד׳", "plus": 0,
+                "legs": [ { "k": "fly", "t": "תל אביב ← טוקיו נריטה", "d": "12ש׳ 15ד׳ · ישירה" } ] },
       "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "total": "14ש׳ 30ד׳", "plus": 1,
-                "legs": [ { "k": "fly", "t": "טוקיו נריטה ← תל אביב", "d": "14ש׳ 30ד׳ · ישירה · ארקיע" } ] },
-      "priceHistory": [ { "d": "2026-08-07", "p": 3630 } ],
-      "included": ["שתי ההמתנות קצרות מ-4 שעות"],
+                "legs": [ { "k": "fly", "t": "טוקיו נריטה ← תל אביב", "d": "14ש׳ 30ד׳ · ישירה" } ] },
+      "priceHistory": [ { "d": "2026-08-07", "p": 3663 } ],
+      "altNote": "יש באותם תאריכים <b>קונקשן זול יותר ב-<span class=\"ltr-num\">₪33</span></b> (<span class=\"ltr-num\">₪3,630</span>) — דרך אתונה ווינה, שתי המתנות של <span class=\"ltr-num\">2ש׳ 10ד׳</span> ו-<span class=\"ltr-num\">2ש׳ 50ד׳</span>. הוא אורך <b><span class=\"ltr-num\">9.5</span> שעות יותר</b> בכיוון הלוך (<span class=\"ltr-num\">21ש׳ 50ד׳</span> מול <span class=\"ltr-num\">12ש׳ 15ד׳</span>) ומוסיף שתי עצירות. לא שווה את זה.",
+      "included": ["ישירה לשני הכיוונים", "מטוס איירבוס A330 רחב-גוף"],
       "toPay": [],
-      "unknown": ["<b>לא שווה את זה:</b> ישירה של ארקיע באותם תאריכים עולה <span class=\"ltr-num\">₪3,663</span> — תוספת של <span class=\"ltr-num\">₪33</span> בלבד, וחוסכת כמעט <span class=\"ltr-num\">10</span> שעות ושתי עצירות"]
+      "unknown": ["מזוודה — מדיניות הקו לטוקיו טרם אומתה", "יציאה ב-00:30"]
     },
     {
       "id": "0707-0719",
@@ -1527,6 +1556,7 @@
     "27/06/2027 (יום א׳) — אין ישירה",
     "04/07/2027 (יום א׳) — אין ישירה",
     "19/07/2027 (יום ב׳) — אין ישירה בחזרה",
+    "23/07/2027 (יום ו׳) — אין ישירה בחזרה, 16 לילות לא אפשרי מ-07/07",
     "28/07→11/08/2027 — נדחה, מחוץ לאופק המכירה",
     "כל אוקטובר 2027 — מחוץ לאופק המכירה"
   ],
@@ -1740,6 +1770,13 @@
   ===================================================================== */
   function nis(n) { return '<span class="ltr-num">₪' + n.toLocaleString('en-US') + '</span>'; }
 
+  /* USD shown alongside NIS. Rate comes from the data block, read live at check time. */
+  var FX_USD = null;
+  function usd(n) {
+    if (!FX_USD) return '';
+    return '<span class="ltr-num">≈ $' + Math.round(n / FX_USD).toLocaleString('en-US') + '</span>';
+  }
+
   function deltaHtml(hist) {
     if (!hist || hist.length < 2) {
       return '<div class="delta first">בדיקה ראשונה — אין עדיין מחיר קודם להשוואה</div>';
@@ -1796,12 +1833,14 @@
     var node = document.getElementById('flightsData');
     if (!node) return;
     var D = JSON.parse(node.textContent);
+    FX_USD = D.fxUsd || null;
 
     document.getElementById('checkBanner').innerHTML =
       '<div><div class="cb-main">🕒 הבדיקה האחרונה: ' + D.lastCheckedLabel + '</div>' +
       '<div class="cb-sub">מקור: ' + D.source + ' · ' + D.paxNote + '</div></div>' +
       '<span class="cb-pill">' + (D.windowsLabel || ('חלון החיפוש: ' + D.windowFrom + '–' + D.windowTo)) + '</span>' +
-      '<span class="cb-pill">נבדק כל יום</span>';
+      '<span class="cb-pill">נבדק כל יום</span>' +
+      (D.fxLabel ? '<span class="cb-pill">💱 ' + D.fxLabel + '</span>' : '');
 
     document.getElementById('flightsIntro').innerHTML = D.horizonNote;
 
@@ -1815,7 +1854,9 @@
         '<div class="route-body">' +
           '<div class="period-meta">' +
             '<div class="pm-box price' + (p.blocked ? ' blocked' : '') + '"><div class="pm-t">' + p.priceLabel + '</div>' +
-              '<div class="pm-v">' + p.priceValue + '</div>' +
+              '<div class="pm-v">' + p.priceValue +
+                (p.priceNum ? ' <span style="font-size:13px; font-weight:600; color:var(--text-soft);">' + usd(p.priceNum) + '</span>' : '') +
+              '</div>' +
               '<div class="pm-t" style="margin-top:3px; font-weight:400;">' + p.priceSub + '</div></div>' +
             '<div class="pm-box"><div class="pm-t">🌡️ מזג אוויר</div><div class="pm-v">' + p.weather + '</div></div>' +
             '<div class="pm-box"><div class="pm-t">🗾 העונה ביפן</div><div class="pm-v">' + p.season + '</div></div>' +
@@ -1832,7 +1873,12 @@
     var colorOf = {};
     (D.periods || []).forEach(function(p){ colorOf[p.id] = p.color || '#7f8c8d'; });
 
-    document.getElementById('flightsList').innerHTML = D.options.map(function(o){
+    /* Always display cheapest-first, whatever order the data block happens to be in. */
+    var sorted = D.options.slice().sort(function(a, b){
+      return a.priceHistory[a.priceHistory.length - 1].p - b.priceHistory[b.priceHistory.length - 1].p;
+    });
+
+    document.getElementById('flightsList').innerHTML = sorted.map(function(o){
       var col = colorOf[o.period] || '#7f8c8d';
       var tag = o.bestTag ? '<span class="fc-tag' + (o.best ? ' green' : '') + '">' + o.bestTag + '</span>' : '';
       var pTag = o.periodName ? '<span class="period-tag" style="background:' + col + '">' + o.periodName + '</span>' : '';
@@ -1846,12 +1892,14 @@
         '<div class="fc-head">' +
           pTag + '<span class="fc-air">' + o.label + '</span>' + tag +
           '<span class="fc-price"><div class="fp-now">' + nis(last.p) + '</div>' +
+          '<div class="fp-usd">' + usd(last.p) + '</div>' +
           '<div class="fp-per">לנוסע · הלוך-חזור</div>' + deltaHtml(o.priceHistory) + '</span>' +
         '</div>' +
         '<div class="legs">' +
           legHtml('הלוך' + (o.airlineOut ? ' · ' + o.airlineOut : ''), o.depDate, o.out) +
           legHtml('חזור' + (o.airlineBack ? ' · ' + o.airlineBack : ''), o.retDate, o.back) +
         '</div>' +
+        (o.altNote ? '<div class="alt-note"><span class="an-ic">🔀</span><span>' + o.altNote + '</span></div>' : '') +
         '<div class="fc-extras">' + ex + '</div>' +
       '</div>';
     }).join('');
