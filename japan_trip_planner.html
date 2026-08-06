@@ -584,6 +584,27 @@
   .chip.pay { background: #fff8e6; border-color: #e8c468; color: #8a6600; }
   .chip.unk { background: #f2f4f8; border-color: #cdd6e5; color: var(--gray); }
 
+  .period-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+  @media (max-width: 700px) { .period-meta { grid-template-columns: 1fr; } }
+  .pm-box { background: #f7f9fd; border: 1px solid var(--border); border-radius: 9px; padding: 10px 13px; }
+  .pm-box .pm-t { font-size: 11.5px; color: var(--text-soft); font-weight: 700; margin-bottom: 3px; }
+  .pm-box .pm-v { font-size: 13.5px; line-height: 1.6; }
+  .pm-box.price .pm-v { font-weight: 800; color: var(--navy); font-size: 15px; }
+  .pm-box.blocked { background: #fdeeec; border-color: #e8b4ad; }
+  .pm-box.blocked .pm-v { color: #a33325; font-weight: 700; }
+
+  .verdict {
+    margin-top: 12px;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    background: #eef2f9;
+    border: 1px solid #a9bde0;
+    border-inline-start: 4px solid var(--blue);
+  }
+  .verdict .v-t { font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+
   .nofly-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
   .nofly-list .nf {
     background: #fdeeec; border: 1px solid #e8b4ad; color: #a33325;
@@ -930,6 +951,10 @@
 
   <div class="check-banner" id="checkBanner"></div>
 
+  <h2 class="section-title">מתי לנסוע — השוואת שלוש תקופות</h2>
+  <p class="lead">שלוש התקופות שנבדקו, עם המחיר האמיתי שנמצא לכל אחת, מזג האוויר, העונה ביפן, ואילוצי החגים והלימודים בישראל. מחיר שכתוב כאן נקרא מדף חי — תקופה שאי אפשר עדיין לתמחר מסומנת ככזו במפורש.</p>
+  <div id="periodsList"></div>
+
   <h2 class="section-title">מה נמצא — טיסות ישירות בלבד</h2>
   <p class="lead" id="flightsIntro"></p>
 
@@ -1171,13 +1196,99 @@
 =================================================================== -->
 <script id="flightsData" type="application/json">
 {
-  "lastCheckedISO": "2026-08-07T16:10:00+03:00",
-  "lastCheckedLabel": "7 באוגוסט 2026, 16:10",
+  "lastCheckedISO": "2026-08-07T17:05:00+03:00",
+  "lastCheckedLabel": "7 באוגוסט 2026, 17:05",
   "source": "KAYAK (il.kayak.com)",
   "paxNote": "המחירים הם לנוסע אחד, הלוך-חזור, לפני מזוודות",
   "windowFrom": "21/06/2027",
   "windowTo": "31/07/2027",
+  "windowsLabel": "3 תקופות במעקב: יוני–יולי · אפריל · אוקטובר 2027",
   "horizonNote": "מנועי החיפוש פותחים מלאי עד כ-330 יום קדימה. נכון לבדיקה הזו, החלק השני של החלון (בערך מאמצע יולי 2027 והלאה) עדיין לא נפתח למכירה — הוא ייפתח בהדרגה, יום ביום. זו בדיוק הסיבה שהבדיקה רצה כל יום.",
+  "periods": [
+    {
+      "id": "jun-jul-2027",
+      "name": "סוף יוני – יולי 2027",
+      "sub": "התוכנית הנוכחית",
+      "rec": true,
+      "recTag": "⭐ הזול ביותר — וההמלצה",
+      "priceLabel": "הזול שנמצא, ישיר, לנוסע",
+      "priceValue": "<span class=\"ltr-num\">₪3,790</span>",
+      "priceSub": "ארקיע, <span class=\"ltr-num\">23/06→07/07/2027</span>",
+      "blocked": false,
+      "weather": "החם והלח בשנה. טוקיו <span class=\"ltr-num\">29–31°</span> ביום, קיוטו חמה עוד יותר, <span class=\"ltr-num\">33–35°</span>, עם לחות גבוהה מאוד. עונת הגשמים (צוּיוּ) בדרך כלל מסתיימת באמצע-סוף יולי, כך שתחילת החודש עדיין גשומה.",
+      "season": "עונת שיא בישראל אבל לא ביפן — היפנים עצמם נוסעים באוגוסט. פסטיבל גיון בקיוטו לאורך יולי, עם התהלוכות הגדולות ב-<span class=\"ltr-num\">17/7</span> וב-<span class=\"ltr-num\">24/7</span>.",
+      "school": "חופש הגדול — אין שום התנגשות עם בית הספר. אין חגים יהודיים בתקופה.",
+      "pros": [
+        "<b>הכי זול מבין השלוש בפער גדול</b> — <span class=\"ltr-num\">₪3,790</span> מול <span class=\"ltr-num\">₪5,741</span> באפריל, הפרש של כמעט <span class=\"ltr-num\">₪2,000</span> לנוסע (כ-<span class=\"ltr-num\">₪5,850</span> לשלושתכם).",
+        "חופש הגדול — אין צורך להוציא את הילד מבית הספר ואין חגים שמפריעים.",
+        "ימים ארוכים מאוד, אור עד מאוחר — מספיקים הרבה יותר בכל יום.",
+        "פסטיבל גיון בקיוטו, אחד האירועים הגדולים ביפן.",
+        "התקופה היחידה מהשלוש שכבר ניתנת להזמנה היום."
+      ],
+      "cons": [
+        "החום והלחות הם באמת קשים — במיוחד לילד ולסבב מקדשים ארוך בקיוטו.",
+        "תחילת יולי עדיין בעונת הגשמים; יש סיכוי ליום-יומיים אבודים.",
+        "תחילת עונת הטייפונים.",
+        "אין פריחת דובדבן ואין שלכת."
+      ],
+      "verdict": "למרות החום — זו ההמלצה. הפער במחיר עצום, אין התנגשות עם לימודים או חגים, וגיון הוא ערך מוסף אמיתי. את החום מנהלים: מתחילים מוקדם בבוקר, קובעים מוזיאון או קניון ממוזג לשעות <span class=\"ltr-num\">13:00–16:00</span>, ומכניסים לילה בהרים (הקונה או טקאיאמה) כהפוגה."
+    },
+    {
+      "id": "apr-2027",
+      "name": "אפריל 2027",
+      "sub": "עונת פריחת הדובדבן",
+      "rec": false,
+      "recTag": "היפה ביותר — והיקר",
+      "priceLabel": "הזול שנמצא, ישיר, לנוסע",
+      "priceValue": "<span class=\"ltr-num\">₪5,741</span>",
+      "priceSub": "ארקיע, <span class=\"ltr-num\">07/04→21/04/2027</span>",
+      "blocked": false,
+      "weather": "הנעים ביותר מבין השלושה. טוקיו בערך <span class=\"ltr-num\">11–19°</span>, יבש יחסית, אביב קלאסי. צריך שכבה לערבים.",
+      "season": "שיא העונה ביפן. פריחת הדובדבן בטוקיו בדרך כלל בסוף מרץ–תחילת אפריל ובקיוטו תחילת אפריל — אבל <b>התאריך משתנה משנה לשנה ולא ניתן לחיזוי מראש</b>. אפשר להגיע ולפספס.",
+      "school": "<b>פסח 2027 חל <span class=\"ltr-num\">21–29/04</span>.</b> טיול של 14 יום באפריל או מתנגש בפסח, או מחייב להוציא את הילד מבית הספר לשבועיים לפניו.",
+      "pros": [
+        "מזג האוויר הכי נוח לטיול — לא חם, לא לח, נעים להליכה כל היום.",
+        "פריחת הדובדבן היא חוויה ויזואלית שאין לה תחליף.",
+        "אין את החום שמכריע ילדים בקיוטו.",
+        "עונה מצוינת לפארקים, לגנים ולפיקניקים (האנאמי)."
+      ],
+      "cons": [
+        "<b>יקר בהרבה</b> — כ-<span class=\"ltr-num\">₪1,950</span> יותר לנוסע מיוני-יולי, כ-<span class=\"ltr-num\">₪5,850</span> לשלושתכם, רק על הטיסות.",
+        "גם המלונות ביפן בשיא המחיר והתפוסה בעונה הזו.",
+        "צפיפות אדירה באתרים המרכזיים — קיוטו בפריחה עמוסה מאוד.",
+        "<b>מתנגש עם פסח או עם הלימודים.</b>",
+        "הפריחה היא הימור — אין דרך לדעת מראש אם תתפסו אותה."
+      ],
+      "verdict": "התקופה הכי יפה, אבל משלמים עליה פעמיים: גם בטיסות וגם בלינה, ועדיין מהמרים על הפריחה. בשילוב עם התנגשות פסח — קשה להצדיק את זה מול יוני-יולי, אלא אם פריחת הדובדבן היא הסיבה שבגללה אתם נוסעים."
+    },
+    {
+      "id": "oct-2027",
+      "name": "אוקטובר 2027",
+      "sub": "סתיו",
+      "rec": false,
+      "recTag": "לא ניתן לתמחור עדיין",
+      "priceLabel": "מחיר",
+      "priceValue": "עדיין לא נפתח למכירה",
+      "priceSub": "מנוע החיפוש דוחה את התאריכים",
+      "blocked": true,
+      "weather": "נוח מאוד — טוקיו בערך <span class=\"ltr-num\">15–22°</span>, יבש, אחד החודשים הכי נעימים ביפן. סיכון הטייפונים דועך במהלך החודש.",
+      "season": "השלכת (קוֹיוֹ) בקיוטו מגיעה לשיא בדרך כלל רק באמצע-סוף נובמבר, כך שאוקטובר <b>מוקדם מדי לשלכת מלאה</b>. מזג האוויר מצוין, אבל בלי האירוע הוויזואלי הגדול.",
+      "school": "<b>החודש עמוס בחגים:</b> ראש השנה <span class=\"ltr-num\">01–03/10</span>, יום כיפור <span class=\"ltr-num\">10–11/10</span>, סוכות <span class=\"ltr-num\">15–22/10</span>, שמחת תורה <span class=\"ltr-num\">23–24/10</span>. טיול של 14 יום כמעט בהכרח יתנגש בחג. אל על אינה טסה בחגים, מה שמצמצם עוד יותר את ימי ההמראה.",
+      "pros": [
+        "מזג האוויר הנוח ביותר לטיול ארוך עם ילד — לא חם ולא קר.",
+        "פחות צפוף מאפריל.",
+        "חלק מהטיול יכול ליפול בחופשת סוכות, בלי להחסיר לימודים."
+      ],
+      "cons": [
+        "<b>אי אפשר לתמחר או להזמין היום</b> — התאריכים מחוץ לאופק המכירה (כ-<span class=\"ltr-num\">330</span> יום). ייפתחו בערך בנובמבר <span class=\"ltr-num\">2026</span>.",
+        "מרוץ מכשולים של חגים — קשה למצוא <span class=\"ltr-num\">14</span> יום רצופים בלי התנגשות.",
+        "אל על לא טסה בחגים, וגם ארקיע מפעילה רק פעמיים בשבוע — חלון הימים נהיה צר מאוד.",
+        "טיסות סביב החגים מישראל הן מהיקרות בשנה.",
+        "מוקדם מדי לשלכת — מקבלים מזג אוויר טוב בלי הנוף שבגללו באים בסתיו."
+      ],
+      "verdict": "מזג האוויר הכי טוב, אבל התקופה הכי בעייתית לוגיסטית: לא ניתנת להזמנה עכשיו, זרועה חגים שגם מייקרים את הטיסות וגם חוסמים ימי המראה, ומוקדמת מדי לשלכת. אם אוקטובר מדבר אליכם, כדאי לחזור לבדוק בנובמבר <span class=\"ltr-num\">2026</span> כשהתאריכים ייפתחו — ולכוון לסוף החודש, אחרי שמחת תורה."
+    }
+  ],
   "options": [
     {
       "id": "0623-0707-arkia-arkia",
@@ -1243,8 +1354,41 @@
       "toPay": [],
       "unknown": ["שני כרטיסים נפרדים — שינוי באחד לא מזכה בשינוי בשני"]
     }
+    ,
+    {
+      "id": "0407-0421-arkia-arkia",
+      "airlineOut": "ארקיע",
+      "airlineBack": "ארקיע",
+      "label": "אפריל · ארקיע הלוך-חזור",
+      "best": false,
+      "bestTag": "הזול באפריל",
+      "depDate": "יום ד׳, 07/04/2027",
+      "retDate": "יום ד׳, 21/04/2027",
+      "out":  { "dep": "00:30", "from": "TLV", "arr": "18:45", "to": "NRT", "dur": "12ש׳ 15ד׳", "plus": 0 },
+      "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "dur": "14ש׳ 30ד׳", "plus": 1 },
+      "priceHistory": [ { "d": "2026-08-07", "p": 5741 } ],
+      "included": ["טיסה ישירה לשני הכיוונים", "מטוס איירבוס A330 רחב-גוף"],
+      "toPay": [],
+      "unknown": ["מזוודה — מדיניות הקו הארוך לטוקיו טרם אומתה", "ארוחות — טרם אומת מה כלול", "החזרה ב-21/04 היא ערב פסח — לבדוק התאמה"]
+    },
+    {
+      "id": "0407-0421-elal-arkia",
+      "airlineOut": "אל על",
+      "airlineBack": "ארקיע",
+      "label": "אפריל · משולב — אל על הלוך, ארקיע חזור",
+      "best": false,
+      "bestTag": "",
+      "depDate": "יום ד׳, 07/04/2027",
+      "retDate": "יום ד׳, 21/04/2027",
+      "out":  { "dep": "19:45", "from": "TLV", "arr": "13:20", "to": "NRT", "dur": "11ש׳ 35ד׳", "plus": 1 },
+      "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "dur": "14ש׳ 30ד׳", "plus": 1 },
+      "priceHistory": [ { "d": "2026-08-07", "p": 9067 } ],
+      "included": ["טיסה ישירה לשני הכיוונים"],
+      "toPay": [],
+      "unknown": ["שני כרטיסים נפרדים — שינוי באחד לא מזכה בשינוי בשני"]
+    }
   ],
-  "noNonstop": ["21/06/2027 (יום ב׳)", "27/06/2027 (יום א׳)", "04/07/2027 (יום א׳)"],
+  "noNonstop": ["21/06/2027 (יום ב׳)", "27/06/2027 (יום א׳)", "04/07/2027 (יום א׳)", "כל אוקטובר 2027 — מחוץ לאופק המכירה, לא ניתן לחיפוש"],
   "links": [
     { "icon": "✈️", "t1": "KAYAK — TLV לנריטה, ישירות", "t2": "23/06 עד 07/07/2027", "url": "https://il.kayak.com/flights/TLV-NRT/2027-06-23/2027-07-07?sort=price_a&fs=stops=0" },
     { "icon": "🔎", "t1": "Skyscanner — כל יוני 2027", "t2": "תצוגת חודש למציאת התאריך הזול", "url": "https://www.skyscanner.co.il/transport/flights/tlv/nrt/270600/" },
@@ -1498,10 +1642,34 @@
     document.getElementById('checkBanner').innerHTML =
       '<div><div class="cb-main">🕒 הבדיקה האחרונה: ' + D.lastCheckedLabel + '</div>' +
       '<div class="cb-sub">מקור: ' + D.source + ' · ' + D.paxNote + '</div></div>' +
-      '<span class="cb-pill">חלון החיפוש: <span class="ltr-num">' + D.windowFrom + '</span>–<span class="ltr-num">' + D.windowTo + '</span></span>' +
+      '<span class="cb-pill">' + (D.windowsLabel || ('חלון החיפוש: ' + D.windowFrom + '–' + D.windowTo)) + '</span>' +
       '<span class="cb-pill">נבדק כל יום</span>';
 
     document.getElementById('flightsIntro').innerHTML = D.horizonNote;
+
+    document.getElementById('periodsList').innerHTML = (D.periods || []).map(function(p){
+      var tag = p.recTag ? '<span class="fc-tag' + (p.rec ? ' green' : '') + '">' + p.recTag + '</span>' : '';
+      return '<div class="route-card' + (p.rec ? ' is-rec' : '') + '">' +
+        '<div class="route-head">' +
+          '<span class="rtitle">' + p.name + '</span>' + tag +
+          '<span style="color:var(--text-soft); font-size:13px;">' + p.sub + '</span>' +
+        '</div>' +
+        '<div class="route-body">' +
+          '<div class="period-meta">' +
+            '<div class="pm-box price' + (p.blocked ? ' blocked' : '') + '"><div class="pm-t">' + p.priceLabel + '</div>' +
+              '<div class="pm-v">' + p.priceValue + '</div>' +
+              '<div class="pm-t" style="margin-top:3px; font-weight:400;">' + p.priceSub + '</div></div>' +
+            '<div class="pm-box"><div class="pm-t">🌡️ מזג אוויר</div><div class="pm-v">' + p.weather + '</div></div>' +
+            '<div class="pm-box"><div class="pm-t">🗾 העונה ביפן</div><div class="pm-v">' + p.season + '</div></div>' +
+            '<div class="pm-box"><div class="pm-t">🎒 לימודים וחגים בישראל</div><div class="pm-v">' + p.school + '</div></div>' +
+          '</div>' +
+          '<div class="pc-grid">' +
+            '<div class="pc-box pros"><div class="pc-t">✔ יתרונות</div><ul><li>' + p.pros.join('</li><li>') + '</li></ul></div>' +
+            '<div class="pc-box cons"><div class="pc-t">✖ חסרונות</div><ul><li>' + p.cons.join('</li><li>') + '</li></ul></div>' +
+          '</div>' +
+          '<div class="verdict"><div class="v-t">💬 השורה התחתונה</div>' + p.verdict + '</div>' +
+        '</div></div>';
+    }).join('');
 
     document.getElementById('flightsList').innerHTML = D.options.map(function(o){
       var tag = o.bestTag ? '<span class="fc-tag' + (o.best ? ' green' : '') + '">' + o.bestTag + '</span>' : '';
