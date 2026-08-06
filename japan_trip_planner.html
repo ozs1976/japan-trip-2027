@@ -499,6 +499,97 @@
   }
   .route-rec .rr-t { font-weight: 700; color: var(--navy); margin-bottom: 3px; }
 
+  /* ============ FLIGHTS TAB ============ */
+  .check-banner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 12px;
+    padding: 13px 18px;
+    margin-bottom: 18px;
+  }
+  .check-banner .cb-main { font-weight: 700; font-size: 14.5px; }
+  .check-banner .cb-sub { font-size: 12.5px; opacity: 0.85; }
+  .check-banner .cb-pill {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  .flight-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(20,30,60,0.05);
+  }
+  .flight-card.best { border-color: var(--green); box-shadow: 0 4px 16px rgba(33,145,80,0.13); }
+
+  .fc-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #f7f9fd;
+    border-bottom: 1px solid var(--border);
+  }
+  .flight-card.best .fc-head { background: #eaf7ef; border-bottom-color: #9bd8b3; }
+  .fc-head .fc-air { font-weight: 800; font-size: 15.5px; color: var(--navy); }
+  .fc-head .fc-tag {
+    background: #eef2f9; color: var(--navy);
+    border-radius: 20px; padding: 3px 11px; font-size: 11.5px; font-weight: 600;
+  }
+  .fc-head .fc-tag.green { background: var(--green); color: #fff; }
+  .fc-head .fc-price { margin-inline-start: auto; text-align: end; }
+  .fc-price .fp-now { font-size: 21px; font-weight: 800; color: var(--navy); }
+  .fc-price .fp-per { font-size: 11.5px; color: var(--text-soft); }
+
+  .delta { font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .delta.down { color: var(--green); }
+  .delta.up { color: var(--red); }
+  .delta.same { color: var(--gray); }
+  .delta .prev { font-weight: 400; color: var(--text-soft); font-size: 12px; text-decoration: line-through; }
+  .delta.first { color: var(--text-soft); font-weight: 600; font-size: 12px; }
+
+  .legs { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  @media (max-width: 700px) { .legs { grid-template-columns: 1fr; } }
+  .leg-box { padding: 14px 16px; }
+  .leg-box + .leg-box { border-inline-start: 1px solid var(--border); }
+  @media (max-width: 700px) { .leg-box + .leg-box { border-inline-start: none; border-top: 1px solid var(--border); } }
+  .leg-box .lb-dir { font-size: 12px; color: var(--text-soft); font-weight: 700; margin-bottom: 7px; }
+  .leg-box .lb-date { font-size: 13px; color: var(--navy); font-weight: 600; margin-bottom: 8px; }
+  .lb-times { display: flex; align-items: center; gap: 10px; }
+  .lb-times .pt { text-align: center; }
+  .lb-times .pt .tm { font-size: 17px; font-weight: 800; color: var(--navy); }
+  .lb-times .pt .ap { font-size: 11.5px; color: var(--text-soft); }
+  .lb-times .mid { flex: 1; text-align: center; border-top: 1.5px dashed var(--border); padding-top: 4px; position: relative; }
+  .lb-times .mid .dur { font-size: 11.5px; color: var(--text-soft); }
+  .lb-times .plus { font-size: 10px; color: var(--red); font-weight: 700; vertical-align: super; }
+
+  .fc-extras { border-top: 1px solid var(--border); padding: 12px 16px; background: #fbfcfe; }
+  .fc-extras .fx-t { font-size: 12.5px; font-weight: 700; color: var(--navy); margin-bottom: 7px; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    border-radius: 7px; padding: 4px 10px; font-size: 12px;
+    border: 1px solid var(--border); background: #fff; color: var(--text);
+  }
+  .chip.inc { background: #eaf7ef; border-color: #9bd8b3; color: #1c7c41; }
+  .chip.pay { background: #fff8e6; border-color: #e8c468; color: #8a6600; }
+  .chip.unk { background: #f2f4f8; border-color: #cdd6e5; color: var(--gray); }
+
+  .nofly-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .nofly-list .nf {
+    background: #fdeeec; border: 1px solid #e8b4ad; color: #a33325;
+    border-radius: 7px; padding: 4px 10px; font-size: 12px;
+  }
+
   /* Numeric ranges/fractions must stay in logical LTR order even inside RTL flow */
   .ltr-num { direction: ltr; unicode-bidi: isolate; display: inline-block; }
 </style>
@@ -520,6 +611,7 @@
 <nav class="tabs" id="tabsNav">
   <button class="active" onclick="switchTab('home')">🏠 ראשי</button>
   <button onclick="switchTab('map')">🗺️ מסלול ומפה</button>
+  <button onclick="switchTab('flights')">✈️ טיסות</button>
   <button onclick="switchTab('budget')">💰 תקציב</button>
   <button onclick="switchTab('checklist')">✅ צ'ק-ליסט וקישורים</button>
 </nav>
@@ -832,7 +924,64 @@
 </section>
 
 <!-- =================================================================== -->
-<!-- TAB 3: BUDGET -->
+<!-- TAB 3: FLIGHTS -->
+<!-- =================================================================== -->
+<section id="tab-flights" class="tab-panel">
+
+  <div class="check-banner" id="checkBanner"></div>
+
+  <h2 class="section-title">מה נמצא — טיסות ישירות בלבד</h2>
+  <p class="lead" id="flightsIntro"></p>
+
+  <div id="flightsList"></div>
+
+  <h2 class="section-title">תאריכים שנבדקו ואין בהם טיסה ישירה</h2>
+  <p class="lead" style="font-size:13.5px;">הקו TLV–נריטה מופעל רק בחלק מימי השבוע, ולכן לא כל תאריך אפשרי. אלה התאריכים שנבדקו ולא נמצאה בהם טיסה ישירה:</p>
+  <div class="nofly-list" id="noflyList"></div>
+
+  <h2 class="section-title">מתי הכי כדאי לקנות</h2>
+  <div id="buyAdvice">
+    <div class="notice">
+      <div class="t">⚠ קודם כול — חלק מהחלון עדיין לא ניתן לקנייה</div>
+      חברות התעופה פותחות מכירה עד כ-<span class="ltr-num">330</span> יום מראש. המשמעות: התאריכים בסוף החלון שביקשתם (בערך מאמצע יולי <span class="ltr-num">2027</span> והלאה) <b>עדיין לא קיימים במערכת</b>, ולכן אי אפשר להשוות אליהם מחיר. כל יום שעובר נפתח עוד יום בקצה. הבדיקה היומית תתפוס אותם ברגע שייפתחו.
+    </div>
+
+    <div class="notice info">
+      <div class="t">🎯 ההמלצה שלי</div>
+      <b>לא לקנות עכשיו, אבל לא לחכות לרגע האחרון.</b> הנימוק:
+      <ul style="margin:8px 0 0; padding-inline-start:20px; line-height:1.75;">
+        <li><b>הקו הזה חדש ותחרותי.</b> ארקיע נכנסה אליו רק באוקטובר <span class="ltr-num">2026</span> מול אל על שהחזיקה אותו לבדה. שתי חברות על קו אחד בדרך כלל מחזיקות מחירים נמוכים, ובתקופת השקה יש נטייה למבצעים. שווה לחכות לתקופת מבצעים ולא לקנות במחיר הראשון.</li>
+        <li><b>יולי הוא שיא העונה.</b> חופש הגדול גם בישראל וגם ביפן. ככל שמתקרבים, המחיר בכיוון אחד — למעלה. הסיכון בהמתנה ארוכה מדי גדול מהסיכוי.</li>
+        <li><b>המלצות "לקנות ביום X" לא שוות הרבה.</b> מה שעובד באמת הוא לעקוב ולקנות כשהמחיר יורד מתחת לרף שהגדרתם מראש.</li>
+      </ul>
+      <div style="margin-top:10px;">
+        <b>רף היעד שאני מציע:</b> נכון לבדיקה הראשונה, הרצפה למסלול ישיר היא <span class="ltr-num">₪3,790</span> לנוסע — כלומר <span class="ltr-num">₪11,370</span> לשלושתכם, לפני מזוודות. הייתי קונה כשהמחיר יורד אל מתחת ל-<span class="ltr-num">₪3,700</span> לנוסע, ולא הייתי נותן לזה לעבור את <span class="ltr-num">₪4,500</span> בלי להזמין. נעדכן את הרף הזה ככל שנצבור היסטוריית מחירים אמיתית.
+      </div>
+    </div>
+
+    <div class="notice">
+      <div class="t">🧳 לפני שמשווים — מזוודות משנות את התמונה</div>
+      הפער הנוכחי בין ארקיע לאל על הוא <span class="ltr-num">₪143</span> לנוסע בלבד. זה פער שמזוודה אחת יכולה להפוך לגמרי: אצל אל על, כרטיס <span class="ltr-num">Economy Classic</span> ומעלה כולל מזוודה של <span class="ltr-num">23</span> ק״ג, ואילו <span class="ltr-num">Economy Lite</span> לא כולל כלום. <b>עדיין לא אימתנו</b> מה בדיוק כולל המחיר שנמצא אצל כל אחת מהן, ומה מדיניות המזוודות של ארקיע דווקא בקו הארוך לטוקיו (הטבלה המוכרת שלה היא לקווים לאירופה). זו הבדיקה הבאה — בלעדיה ההשוואה לא סגורה.
+    </div>
+
+    <div class="notice info">
+      <div class="t">🕯️ הערה על שבת</div>
+      אל על אינה טסה בשבת ובחגים, וגם ישראייר נמנעת מטיסות שבת. ארקיע היא הישראלית שהכי סביר שתפעיל טיסת שבת. זה מצמצם עוד יותר את ימי ההמראה האפשריים — ולכן חלק מהתאריכים בחלון פשוט לא יהיו זמינים אף פעם.
+    </div>
+  </div>
+
+  <h2 class="section-title">קישורים לבדיקה חיה</h2>
+  <div class="link-grid" id="flightLinks"></div>
+
+  <div class="notice info" style="margin-top:18px;">
+    <div class="t">🔄 איך הנתונים האלה מתעדכנים</div>
+    הבדיקה רצה <b>כל יום</b> ומעדכנת את הטבלה למעלה. כל מחיר נשמר בהיסטוריה, ולכן ליד המחיר הנוכחי מופיע המחיר מהבדיקה הקודמת: <span class="delta down">▼ ירידה</span> בירוק, <span class="delta up">▲ עלייה</span> באדום. בבדיקה הראשונה של מסלול עדיין אין עם מה להשוות.
+  </div>
+
+</section>
+
+<!-- =================================================================== -->
+<!-- TAB 4: BUDGET -->
 <!-- =================================================================== -->
 <section id="tab-budget" class="tab-panel">
 
@@ -1015,12 +1164,102 @@
   מסמך עבודה חי לתכנון הטיול — עדכנו יחד לאורך הדרך 🎒
 </footer>
 
+<!-- ===================================================================
+     FLIGHT DATA — updated by the daily check. See FLIGHTS_TASK.md.
+     Every price here must come from a page actually loaded during a check.
+     Never hand-write a price that was not read live.
+=================================================================== -->
+<script id="flightsData" type="application/json">
+{
+  "lastCheckedISO": "2026-08-07T16:10:00+03:00",
+  "lastCheckedLabel": "7 באוגוסט 2026, 16:10",
+  "source": "KAYAK (il.kayak.com)",
+  "paxNote": "המחירים הם לנוסע אחד, הלוך-חזור, לפני מזוודות",
+  "windowFrom": "21/06/2027",
+  "windowTo": "31/07/2027",
+  "horizonNote": "מנועי החיפוש פותחים מלאי עד כ-330 יום קדימה. נכון לבדיקה הזו, החלק השני של החלון (בערך מאמצע יולי 2027 והלאה) עדיין לא נפתח למכירה — הוא ייפתח בהדרגה, יום ביום. זו בדיוק הסיבה שהבדיקה רצה כל יום.",
+  "options": [
+    {
+      "id": "0623-0707-arkia-arkia",
+      "airlineOut": "ארקיע",
+      "airlineBack": "ארקיע",
+      "label": "ארקיע הלוך-חזור",
+      "best": true,
+      "bestTag": "הזול ביותר בבדיקה",
+      "depDate": "יום ד׳, 23/06/2027",
+      "retDate": "יום ד׳, 07/07/2027",
+      "out":  { "dep": "00:30", "from": "TLV", "arr": "18:45", "to": "NRT", "dur": "12ש׳ 15ד׳", "plus": 0 },
+      "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "dur": "14ש׳ 30ד׳", "plus": 1 },
+      "priceHistory": [ { "d": "2026-08-07", "p": 3790 } ],
+      "included": ["טיסה ישירה לשני הכיוונים", "מטוס איירבוס A330 רחב-גוף"],
+      "toPay": [],
+      "unknown": ["מזוודה — מדיניות הקו הארוך לטוקיו טרם אומתה", "ארוחות — טרם אומת מה כלול", "בחירת מושב"]
+    },
+    {
+      "id": "0623-0707-elal-elal",
+      "airlineOut": "אל על",
+      "airlineBack": "אל על",
+      "label": "אל על הלוך-חזור",
+      "best": false,
+      "bestTag": "הטיסה הקצרה ביותר",
+      "depDate": "יום ד׳, 23/06/2027",
+      "retDate": "יום ד׳, 07/07/2027",
+      "out":  { "dep": "19:45", "from": "TLV", "arr": "13:20", "to": "NRT", "dur": "11ש׳ 35ד׳", "plus": 1 },
+      "back": { "dep": "15:35", "from": "NRT", "arr": "22:20", "to": "TLV", "dur": "12ש׳ 45ד׳", "plus": 0 },
+      "priceHistory": [ { "d": "2026-08-07", "p": 3933 } ],
+      "included": ["טיסה ישירה לשני הכיוונים", "ארוחות כשרות כברירת מחדל (המטבח של אל על מוסמך כשר)"],
+      "toPay": [],
+      "unknown": ["מזוודה — תלוי במחלקת הכרטיס: ב-Economy Classic ומעלה כלולה מזוודה אחת 23 ק״ג, ב-Economy Lite אין מזוודה. איזו מחלקה במחיר הזה — טרם אומת"]
+    },
+    {
+      "id": "0623-0707-arkia-elal",
+      "airlineOut": "ארקיע",
+      "airlineBack": "אל על",
+      "label": "משולב — ארקיע הלוך, אל על חזור",
+      "best": false,
+      "bestTag": "",
+      "depDate": "יום ד׳, 23/06/2027",
+      "retDate": "יום ד׳, 07/07/2027",
+      "out":  { "dep": "00:30", "from": "TLV", "arr": "18:45", "to": "NRT", "dur": "12ש׳ 15ד׳", "plus": 0 },
+      "back": { "dep": "15:35", "from": "NRT", "arr": "22:20", "to": "TLV", "dur": "12ש׳ 45ד׳", "plus": 0 },
+      "priceHistory": [ { "d": "2026-08-07", "p": 5126 } ],
+      "included": ["טיסה ישירה לשני הכיוונים"],
+      "toPay": [],
+      "unknown": ["שני כרטיסים נפרדים — שינוי באחד לא מזכה בשינוי בשני"]
+    },
+    {
+      "id": "0623-0707-elal-arkia",
+      "airlineOut": "אל על",
+      "airlineBack": "ארקיע",
+      "label": "משולב — אל על הלוך, ארקיע חזור",
+      "best": false,
+      "bestTag": "",
+      "depDate": "יום ד׳, 23/06/2027",
+      "retDate": "יום ד׳, 07/07/2027",
+      "out":  { "dep": "19:45", "from": "TLV", "arr": "13:20", "to": "NRT", "dur": "11ש׳ 35ד׳", "plus": 1 },
+      "back": { "dep": "21:45", "from": "NRT", "arr": "06:15", "to": "TLV", "dur": "14ש׳ 30ד׳", "plus": 1 },
+      "priceHistory": [ { "d": "2026-08-07", "p": 5261 } ],
+      "included": ["טיסה ישירה לשני הכיוונים"],
+      "toPay": [],
+      "unknown": ["שני כרטיסים נפרדים — שינוי באחד לא מזכה בשינוי בשני"]
+    }
+  ],
+  "noNonstop": ["21/06/2027 (יום ב׳)", "27/06/2027 (יום א׳)", "04/07/2027 (יום א׳)"],
+  "links": [
+    { "icon": "✈️", "t1": "KAYAK — TLV לנריטה, ישירות", "t2": "23/06 עד 07/07/2027", "url": "https://il.kayak.com/flights/TLV-NRT/2027-06-23/2027-07-07?sort=price_a&fs=stops=0" },
+    { "icon": "🔎", "t1": "Skyscanner — כל יוני 2027", "t2": "תצוגת חודש למציאת התאריך הזול", "url": "https://www.skyscanner.co.il/transport/flights/tlv/nrt/270600/" },
+    { "icon": "🇮🇱", "t1": "אל על — טיסות לטוקיו", "t2": "מחיר ישיר מהאתר הרשמי", "url": "https://www.elal.com/flight-deals/en-il/flights-from-tel-aviv-to-tokyo" },
+    { "icon": "🛫", "t1": "ארקיע — האתר הרשמי", "t2": "לבדוק מדיניות מזוודות בקו לטוקיו", "url": "https://www.arkia.co.il/" }
+  ]
+}
+</script>
+
 <script>
   function switchTab(id) {
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
     document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.remove('active'); });
     document.getElementById('tab-' + id).classList.add('active');
-    var idx = { home:0, map:1, budget:2, checklist:3 }[id];
+    var idx = { home:0, map:1, flights:2, budget:3, checklist:4 }[id];
     document.querySelectorAll('nav.tabs button')[idx].classList.add('active');
     window.scrollTo({top:0, behavior:'smooth'});
     if (id === 'map') {
@@ -1210,6 +1449,92 @@
     }
   }
 
+  /* =====================================================================
+     FLIGHTS TAB — renders from the #flightsData JSON block.
+     Price delta: compares the last two entries in priceHistory.
+  ===================================================================== */
+  function nis(n) { return '<span class="ltr-num">₪' + n.toLocaleString('en-US') + '</span>'; }
+
+  function deltaHtml(hist) {
+    if (!hist || hist.length < 2) {
+      return '<div class="delta first">בדיקה ראשונה — אין עדיין מחיר קודם להשוואה</div>';
+    }
+    var now = hist[hist.length - 1].p;
+    var prev = hist[hist.length - 2].p;
+    var diff = now - prev;
+    if (diff === 0) {
+      return '<div class="delta same">● ללא שינוי מהבדיקה הקודמת</div>';
+    }
+    var cls = diff < 0 ? 'down' : 'up';
+    var arrow = diff < 0 ? '▼' : '▲';
+    var word = diff < 0 ? 'ירד' : 'עלה';
+    return '<div class="delta ' + cls + '">' + arrow + ' ' + word + ' ב-' +
+           '<span class="ltr-num">₪' + Math.abs(diff).toLocaleString('en-US') + '</span>' +
+           ' · קודם <span class="prev ltr-num">₪' + prev.toLocaleString('en-US') + '</span></div>';
+  }
+
+  function legHtml(dirLabel, dateLabel, leg) {
+    var plus = leg.plus ? '<span class="plus ltr-num">+' + leg.plus + '</span>' : '';
+    return '<div class="leg-box">' +
+      '<div class="lb-dir">' + dirLabel + '</div>' +
+      '<div class="lb-date">' + dateLabel + '</div>' +
+      '<div class="lb-times">' +
+        '<div class="pt"><div class="tm ltr-num">' + leg.dep + '</div><div class="ap">' + leg.from + '</div></div>' +
+        '<div class="mid"><div class="dur">' + leg.dur + ' · ישירה</div></div>' +
+        '<div class="pt"><div class="tm ltr-num">' + leg.arr + '</div>' + plus +
+          '<div class="ap">' + leg.to + '</div></div>' +
+      '</div></div>';
+  }
+
+  function chips(list, cls) {
+    return list.map(function(x){ return '<span class="chip ' + cls + '">' + x + '</span>'; }).join('');
+  }
+
+  function renderFlights() {
+    var node = document.getElementById('flightsData');
+    if (!node) return;
+    var D = JSON.parse(node.textContent);
+
+    document.getElementById('checkBanner').innerHTML =
+      '<div><div class="cb-main">🕒 הבדיקה האחרונה: ' + D.lastCheckedLabel + '</div>' +
+      '<div class="cb-sub">מקור: ' + D.source + ' · ' + D.paxNote + '</div></div>' +
+      '<span class="cb-pill">חלון החיפוש: <span class="ltr-num">' + D.windowFrom + '</span>–<span class="ltr-num">' + D.windowTo + '</span></span>' +
+      '<span class="cb-pill">נבדק כל יום</span>';
+
+    document.getElementById('flightsIntro').innerHTML = D.horizonNote;
+
+    document.getElementById('flightsList').innerHTML = D.options.map(function(o){
+      var tag = o.bestTag ? '<span class="fc-tag' + (o.best ? ' green' : '') + '">' + o.bestTag + '</span>' : '';
+      var last = o.priceHistory[o.priceHistory.length - 1];
+      var ex = '';
+      if (o.included.length) ex += '<div class="fx-t">✔ כלול</div><div class="chip-row">' + chips(o.included, 'inc') + '</div>';
+      if (o.toPay.length)   ex += '<div class="fx-t" style="margin-top:9px;">💳 בתשלום</div><div class="chip-row">' + chips(o.toPay, 'pay') + '</div>';
+      if (o.unknown.length) ex += '<div class="fx-t" style="margin-top:9px;">❔ טרם אומת</div><div class="chip-row">' + chips(o.unknown, 'unk') + '</div>';
+
+      return '<div class="flight-card' + (o.best ? ' best' : '') + '">' +
+        '<div class="fc-head">' +
+          '<span class="fc-air">' + o.label + '</span>' + tag +
+          '<span class="fc-price"><div class="fp-now">' + nis(last.p) + '</div>' +
+          '<div class="fp-per">לנוסע · הלוך-חזור</div>' + deltaHtml(o.priceHistory) + '</span>' +
+        '</div>' +
+        '<div class="legs">' +
+          legHtml('הלוך · ' + o.airlineOut, o.depDate, o.out) +
+          legHtml('חזור · ' + o.airlineBack, o.retDate, o.back) +
+        '</div>' +
+        '<div class="fc-extras">' + ex + '</div>' +
+      '</div>';
+    }).join('');
+
+    document.getElementById('noflyList').innerHTML =
+      D.noNonstop.map(function(d){ return '<span class="nf ltr-num">' + d + '</span>'; }).join('');
+
+    document.getElementById('flightLinks').innerHTML = D.links.map(function(l){
+      return '<a class="link-card" href="' + l.url + '" target="_blank" rel="noopener">' +
+        '<span class="lic">' + l.icon + '</span><span class="ltxt">' +
+        '<div class="lt1">' + l.t1 + '</div><div class="lt2">' + l.t2 + '</div></span></a>';
+    }).join('');
+  }
+
   function updateProgress(checkboxSelector, fillId, textId) {
     var boxes = document.querySelectorAll(checkboxSelector);
     var total = boxes.length;
@@ -1232,6 +1557,7 @@
     cb.addEventListener('change', updateAllProgress);
   });
 
+  renderFlights();
   updateAllProgress();
   // If the page ever loads with the map tab already active, init immediately too.
   if (document.getElementById('tab-map').classList.contains('active')) { initLeafletMap(); }
