@@ -428,6 +428,77 @@
 
   small.tag { display:inline-block; background:#eef2f9; color:var(--navy); border-radius:6px; padding:2px 8px; font-size:11px; margin-inline-start:6px; }
 
+  /* ============ ROUTE OPTIONS (3 proposals) ============ */
+  .route-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0;
+    margin-bottom: 18px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(20,30,60,0.05);
+  }
+  .route-card.is-rec { border-color: var(--green); box-shadow: 0 4px 16px rgba(33,145,80,0.13); }
+
+  .route-head {
+    background: #f7f9fd;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .route-card.is-rec .route-head { background: #eaf7ef; border-bottom-color: #9bd8b3; }
+  .route-head .rtitle { font-weight: 800; font-size: 16.5px; color: var(--navy); }
+  .route-head .rbadge {
+    background: var(--green);
+    color: #fff;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .route-head .rbadge.neutral { background: var(--gray); }
+
+  .route-body { padding: 16px 18px 18px; }
+
+  .route-legs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .route-legs .leg {
+    background: #eef2f9;
+    border: 1px solid #dde4f0;
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .route-legs .leg b { color: var(--navy); }
+  .route-legs .leg .ldays { color: var(--text-soft); font-size: 12px; display: block; }
+  .route-legs .arrow { align-self: center; color: var(--text-soft); font-size: 15px; }
+
+  .pc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 700px) { .pc-grid { grid-template-columns: 1fr; } }
+  .pc-box { border-radius: 10px; padding: 12px 14px; font-size: 13.5px; line-height: 1.65; }
+  .pc-box .pc-t { font-weight: 700; margin-bottom: 6px; }
+  .pc-box ul { margin: 0; padding-inline-start: 18px; }
+  .pc-box li { margin-bottom: 5px; }
+  .pc-box.pros { background: #eaf7ef; border: 1px solid #9bd8b3; }
+  .pc-box.pros .pc-t { color: #1c7c41; }
+  .pc-box.cons { background: #fdeeec; border: 1px solid #e8b4ad; }
+  .pc-box.cons .pc-t { color: #a33325; }
+
+  .route-rec {
+    margin-top: 12px;
+    background: #eef2f9;
+    border: 1px solid #a9bde0;
+    border-inline-start: 4px solid var(--blue);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+  .route-rec .rr-t { font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+
   /* Numeric ranges/fractions must stay in logical LTR order even inside RTL flow */
   .ltr-num { direction: ltr; unicode-bidi: isolate; display: inline-block; }
 </style>
@@ -527,6 +598,158 @@
 <!-- =================================================================== -->
 <section id="tab-map" class="tab-panel">
 
+  <h2 class="section-title">שלוש הצעות מסלול — טרם הוכרע</h2>
+  <div class="notice">
+    <div class="t">✈️ נקודת מוצא משותפת לשלושתן</div>
+    הוחלט שהטיול <b>מתחיל ומסתיים בטוקיו</b> — טיסה רגילה הלוך-חזור (נריטה/הנדה), ולא טיסת Open Jaw כפי שתוכנן קודם. שלוש ההצעות שלמטה נבדלות רק במה שקורה בין היום הראשון לאחרון. <b>המסלול המפורט שמופיע בהמשך העמוד (ובמפה) עדיין משקף את התכנון הישן</b> — הוא יעודכן ברגע שתיבחר אחת מההצעות.
+  </div>
+
+  <!-- ===== OPTION B (recommended) ===== -->
+  <div class="route-card is-rec">
+    <div class="route-head">
+      <span class="rtitle">מסלול ב' — לולאה עם עצירה בהקונה</span>
+      <span class="rbadge">⭐ ההמלצה שלי</span>
+    </div>
+    <div class="route-body">
+      <div class="route-legs">
+        <span class="leg"><b>טוקיו</b><span class="ldays">ימים <span class="ltr-num">1–5</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>קיוטו + נארה</b><span class="ldays">ימים <span class="ltr-num">6–9</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>אוסקה + USJ</b><span class="ldays">ימים <span class="ltr-num">10–12</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>הקונה 🏔️</b><span class="ldays">יום 13 · ריוקאן</span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>טוקיו</b><span class="ldays">יום 14 · טיסה</span></span>
+      </div>
+
+      <div class="pc-grid">
+        <div class="pc-box pros">
+          <div class="pc-t">✔ יתרונות</div>
+          <ul>
+            <li>מפצל את הנסיעה הארוכה חזרה לטוקיו לשני חלקים, במקום יום שלם ברכבת.</li>
+            <li>לילה בריוקאן עם אונסן וארוחת קאיסקי — החוויה היפנית שאי אפשר לקבל בערים.</li>
+            <li>נוף להר פוג'י, אגם אשי, רכבל ועמק הגופרית — גיוון נופי אמיתי.</li>
+            <li>הפוגה מהחום והלחות של יולי: בהקונה קריר משמעותית מטוקיו ואוסקה.</li>
+            <li>לא מוותרים על אף עיר ועל אף יום פוקימון/גיימינג.</li>
+          </ul>
+        </div>
+        <div class="pc-box cons">
+          <div class="pc-t">✖ חסרונות</div>
+          <ul>
+            <li>אריזה והעברת מזוודות נוספת בשביל לילה אחד.</li>
+            <li>ריוקאן טוב יקר מלילה במלון עירוני — צפו לתוספת של כמה מאות שקלים.</li>
+            <li>ביולי יש סיכוי סביר שהר פוג'י יהיה מכוסה עננים — לא לבנות על הנוף.</li>
+            <li>ההקונה עמוסה בסופי שבוע; אמצע שבוע עדיף.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="route-rec">
+        <div class="rr-t">💬 ההמלצה שלי</div>
+        זה המסלול שהייתי בוחר. הוא לוקח את הפשטות של מסלול א' ומחליף את יום הנסיעה המשעמם בחוויה שכל השלושה יזכרו, בעלות של לילה אחד יקר יותר. <b>הסתייגות אחת לגבי הנימוק המקורי:</b> הטענה ש"לא חוזרים על אותו קטע מסילה" אינה מדויקת — אוסקה←הקונה←טוקיו זה עדיין קו הטוקאידו, אותו ציר. היתרון האמיתי הוא פיצול הנסיעה והריוקאן, לא חיסכון במסילה.
+        <br>אם בוחרים בזה: להעביר את המזוודות הגדולות ישירות מאוסקה למלון בטוקיו בשירות <b>טאקיובין</b> (כ-<span class="ltr-num">¥2,000</span> למזוודה), ולקחת להקונה תיק קטן בלבד.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== OPTION A ===== -->
+  <div class="route-card">
+    <div class="route-head">
+      <span class="rtitle">מסלול א' — לולאה קלאסית</span>
+      <span class="rbadge neutral">הכי פשוט</span>
+    </div>
+    <div class="route-body">
+      <div class="route-legs">
+        <span class="leg"><b>טוקיו</b><span class="ldays">ימים <span class="ltr-num">1–5</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>קיוטו + נארה</b><span class="ldays">ימים <span class="ltr-num">6–9</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>אוסקה + USJ</b><span class="ldays">ימים <span class="ltr-num">10–12</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>טוקיו</b><span class="ldays">ימים <span class="ltr-num">13–14</span></span></span>
+      </div>
+
+      <div class="pc-grid">
+        <div class="pc-box pros">
+          <div class="pc-t">✔ יתרונות</div>
+          <ul>
+            <li>הכי פשוט לוגיסטית: שלוש ערי בסיס בלבד, שלוש אריזות.</li>
+            <li>"סיבוב שני" בטוקיו בסוף — הזדמנות לקניות אחרונות ולמה שהוחמץ.</li>
+            <li>היום האחרון רגוע וקרוב לשדה התעופה, בלי לחץ של החמצת טיסה.</li>
+            <li>אפשר להשאיר מזוודות במלון בטוקיו ולנסוע קליל לקנסאי.</li>
+          </ul>
+        </div>
+        <div class="pc-box cons">
+          <div class="pc-t">✖ חסרונות</div>
+          <ul>
+            <li>יום 13 הוא כמעט כולו נסיעה — שינקנסן של כשעתיים וחצי ועוד מעברים.</li>
+            <li>חוזרים על אותו קטע מסילה בדיוק, בלי שום דבר חדש בדרך.</li>
+            <li>אין גיוון נופי — 14 יום של ערים גדולות בחום ולחות של יולי.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="route-rec">
+        <div class="rr-t">💬 ההמלצה שלי</div>
+        בחירה סבירה לגמרי אם העדיפות היא מינימום טרטור ומקסימום פשטות. אם בוחרים בו, שווה לנצל את <b>יום 5 ליום טיול מטוקיו</b> כדי להכניס גיוון: קמאקורה הכי קלה (כשעה), הקונה הכי מרשימה, ניקקו הכי רחוקה. בפועל זה כמעט הופך אותו למסלול ב' — רק שהחוויה הכפרית נדחסת ליום אחד בלי לינה.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== OPTION C ===== -->
+  <div class="route-card">
+    <div class="route-head">
+      <span class="rtitle">מסלול ג' — לולאה מורחבת דרך האלפים היפניים</span>
+      <span class="rbadge neutral">הכי מגוון</span>
+    </div>
+    <div class="route-body">
+      <div class="route-legs">
+        <span class="leg"><b>טוקיו</b><span class="ldays">ימים <span class="ltr-num">1–4</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>קיוטו + נארה</b><span class="ldays">ימים <span class="ltr-num">5–8</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>אוסקה + USJ</b><span class="ldays">ימים <span class="ltr-num">9–10</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>טקאיאמה · שיראקאווה-גו · קנזאווה</b><span class="ldays">ימים <span class="ltr-num">11–13</span></span></span>
+        <span class="arrow">←</span>
+        <span class="leg"><b>טוקיו</b><span class="ldays">יום 14 · טיסה</span></span>
+      </div>
+
+      <div class="pc-grid">
+        <div class="pc-box pros">
+          <div class="pc-t">✔ יתרונות</div>
+          <ul>
+            <li>הכי מגוון נופית ותרבותית: כפרי גאשו-זוקורי בשיראקאווה-גו, עיירת אדו בטקאיאמה, גן קנרוקואן בקנזאווה.</li>
+            <li>אזור פחות תיירותי — חוויה יפנית אותנטית יותר.</li>
+            <li><b>JR Pass</b> כמעט בוודאות משתלם במסלול הזה, מה שמאזן חלק מהעלות.</li>
+            <li>אפשר לשלב לילה בריוקאן בטקאיאמה בלי מעקף מיוחד.</li>
+          </ul>
+        </div>
+        <div class="pc-box cons">
+          <div class="pc-t">✖ חסרונות</div>
+          <ul>
+            <li>טוקיו יורדת ל-4 ימים ואוסקה ל-2 — ה-USJ נדחס וטוקיו נחתכת בדיוק במה שהילד בא בשבילו.</li>
+            <li>הקטע יורד מקו הטוקאידו הראשי (דרך נגויה או קו הוקוריקו) — יותר החלפות, יותר שעות רכבת, יותר כסף.</li>
+            <li>הכי פחות תוכן פוקימון/גיימינג מבין השלושה — שלושה ימים בלי כלום מזה.</li>
+            <li>לשיראקאווה-גו מגיעים באוטובוס שדורש הזמנה מראש, ובקיץ הוא מתמלא.</li>
+            <li>ארבע ערי בסיס ומעלה = ארבע אריזות ופריקות ב-14 יום.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="route-rec">
+        <div class="rr-t">💬 ההמלצה שלי</div>
+        מסלול מצוין — <b>לזוג בלי ילדים, או לנוסע חוזר ליפן</b>. לטיול ראשון עם ילד בן 13 שבא בשביל פוקימון ומריו, הוא גובה מחיר גבוה מדי בזמן, בכסף ובאנרגיה, בדיוק בערים שהכי חשובות לו. אם האלפים בכל זאת מדברים אליכם — הצעת פשרה: קחו את מסלול ב' והחליפו את <b>הקונה בלילה בטקאיאמה</b>. מקבלים ריוקאן הררי ועיירה עתיקה, בלי לקצץ שלושה ימים מהערים.
+      </div>
+    </div>
+  </div>
+
+  <div class="notice info">
+    <div class="t">🧭 איך אני מציע להחליט</div>
+    אם הכי חשוב לכם <b>מינימום טרטור</b> — א'. אם חשוב לכם <b>גיוון וחוויה יפנית כפרית בלי לוותר על הערים</b> — ב'. אם אתם מטיילים שמוכנים לוותר על עומק בערים תמורת רוחב גיאוגרפי — ג'. תגידו מה נבחר ואעדכן בהתאם את טבלת הימים, את הפינים והנתיב במפה, ואת חישוב ה-JR Pass בתקציב.
+  </div>
+
   <h2 class="section-title">המסלול על המפה</h2>
   <p class="lead">מפה אמיתית וניתנת לזום. במבט רחוק רואים רק את ארבע הערים והמסלול ביניהן. זומו אין (גלגלת עכבר / צביטה, או כפתורי ה-+/‏- בפינת המפה) כדי לראות את כל האתרים הספציפיים, הפוקימון-סנטרים, ואזורי הלינה המומלצים בכל עיר. לחיצה על נקודה פותחת פרטים.</p>
 
@@ -553,9 +776,9 @@
     <div class="progress-track"><div class="progress-fill" id="dayProgressFill"></div></div>
   </div>
 
-  <div class="notice info" style="margin-top:18px;">
-    <div class="t">💡 המלצת טיסה</div>
-    טיסת "Open Jaw": נחיתה בטוקיו (נריטה/הנדה), המראה חזרה מאוסקה (קאנסאי) — חוסך נסיעה מיותרת חזרה לטוקיו בסוף הטיול.
+  <div class="notice" style="margin-top:18px;">
+    <div class="t">⚠️ שימו לב — הפירוט שלמטה עדיין ישן</div>
+    טבלת הימים הבאה (וגם הפינים במפה) נכתבה לפי ההנחה הישנה של טיסת <b>Open Jaw</b> — נחיתה בטוקיו והמראה מאוסקה (קאנסאי). <b>ההנחה הזו בוטלה:</b> הטיול מתחיל ומסתיים בטוקיו. הפירוט יעודכן במלואו ברגע שתיבחר אחת משלוש ההצעות שלמעלה.
   </div>
 
   <!-- ===== TOKYO ===== -->
