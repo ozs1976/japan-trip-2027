@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>טיול משפחתי ליפן — יולי 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root {
+    --navy: #1a2a4a;
+    --navy-light: #26395f;
+    --red: #c0392b;
+    --red-light: #e0574a;
+    --gold: #d69b00;
+    --blue: #2980b9;
+    --green: #219150;
+    --purple: #8e44ad;
+    --gray: #7f8c8d;
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --border: #dde4f0;
+    --text: #24304a;
+    --text-soft: #5b6883;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Heebo', Arial, sans-serif;
+    direction: rtl;
+    scroll-behavior: smooth;
+  }
+
+  /* ============ HEADER ============ */
+  header.hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #2c4270 100%);
+    color: #fff;
+    padding: 26px 20px 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header.hero::before {
+    content: "⚡🗻⛩️";
+    position: absolute;
+    font-size: 90px;
+    opacity: 0.08;
+    left: -10px; top: -20px;
+    letter-spacing: 20px;
+  }
+  header.hero h1 {
+    margin: 0 0 4px;
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 800;
+  }
+  header.hero .sub {
+    font-size: 15px;
+    opacity: 0.9;
+    font-weight: 400;
+  }
+  header.hero .badges {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  header.hero .badge {
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+  }
+
+  /* ============ TABS NAV ============ */
+  nav.tabs {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    padding: 0 8px;
+    overflow-x: auto;
+    box-shadow: 0 2px 8px rgba(20,30,60,0.06);
+  }
+  nav.tabs button {
+    appearance: none;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text-soft);
+    padding: 14px 18px 12px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all .15s ease;
+  }
+  nav.tabs button:hover { color: var(--navy); background: #f4f7fd; }
+  nav.tabs button.active {
+    color: var(--red);
+    border-bottom-color: var(--red);
+  }
+  nav.tabs button .emoji { margin-inline-start: 6px; }
+
+  main { max-width: 1080px; margin: 0 auto; padding: 22px 16px 60px; }
+
+  .tab-panel { display: none; animation: fadeIn .25s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from {opacity:0; transform: translateY(6px);} to {opacity:1; transform: translateY(0);} }
+
+  h2.section-title {
+    font-size: 20px;
+    color: var(--navy);
+    border-inline-start: 5px solid var(--red);
+    padding-inline-start: 12px;
+    margin: 30px 0 14px;
+  }
+  h2.section-title:first-child { margin-top: 0; }
+
+  p.lead { color: var(--text-soft); line-height: 1.7; }
+
+  /* ============ CARDS / GRID ============ */
+  .grid { display: grid; gap: 14px; }
+  .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 800px) {
+    .grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid.cols-2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .grid.cols-4 { grid-template-columns: 1fr 1fr; }
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(20,30,60,0.05);
+  }
+  .stat-card .num { font-size: 24px; font-weight: 800; color: var(--navy); }
+  .stat-card .lbl { font-size: 12.5px; color: var(--text-soft); margin-top: 3px; }
+
+  .nav-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+    text-align: center;
+  }
+  .nav-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(20,30,60,0.1); }
+  .nav-card .icon { font-size: 30px; margin-bottom: 8px; }
+  .nav-card .title { font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .nav-card .desc { font-size: 12.5px; color: var(--text-soft); }
+
+  .notice {
+    background: #fff8e6;
+    border: 1px solid #e8c468;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 14px 0;
+  }
+  .notice.info { background: #eef2f9; border-color: #a9bde0; }
+  .notice.ok { background: #eaf7ef; border-color: #9bd8b3; }
+  .notice .t { font-weight: 700; margin-bottom: 4px; }
+  .notice.info .t { color: var(--navy); }
+  .notice.ok .t { color: #1c7c41; }
+  .notice:not(.info):not(.ok) .t { color: #8a6600; }
+
+  /* ============ PROGRESS BAR ============ */
+  .progress-wrap { margin: 10px 0 4px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-soft); margin-bottom: 5px; }
+  .progress-track { background: #e6ebf5; border-radius: 20px; height: 12px; overflow: hidden; }
+  .progress-fill { background: linear-gradient(90deg, var(--red), #e0574a); height: 100%; border-radius: 20px; width: 0%; transition: width .3s ease; }
+
+  /* ============ MAP TAB ============ */
+  .map-wrap {
+    background: linear-gradient(180deg, #eaf2fb 0%, #f6f9fd 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 10px;
+    position: relative;
+  }
+  .map-legend { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; padding: 10px 6px 2px; font-size: 12.5px; color: var(--text-soft); }
+  .map-legend .item { display: flex; align-items: center; gap: 5px; }
+  .map-legend .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .map-legend .swatch.sq { border-radius: 4px; }
+
+  /* ---- Leaflet map ---- */
+  #leafletMap {
+    width: 100%;
+    height: 520px;
+    border-radius: 12px;
+    z-index: 1;
+    direction: ltr; /* keep Leaflet's internal controls (zoom +/-) in their normal position */
+  }
+  @media (max-width: 700px) { #leafletMap { height: 420px; } }
+
+  .zoom-hint {
+    position: absolute;
+    z-index: 500;
+    top: 20px;
+    inset-inline-start: 20px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12.5px;
+    color: var(--navy);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(20,30,60,0.12);
+    pointer-events: none;
+    direction: rtl;
+  }
+
+  /* custom divIcon markers */
+  .pin-city {
+    width: 26px; height: 26px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2.5px solid #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pin-city span { transform: rotate(45deg); font-size: 13px; }
+  .pin-city.pulse-anim { animation: pinPulse 1.8s ease-in-out infinite; }
+  @keyframes pinPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.55), 0 2px 6px rgba(0,0,0,0.35); } 50% { box-shadow: 0 0 0 9px rgba(192,57,43,0), 0 2px 6px rgba(0,0,0,0.35); } }
+
+  .pin-detail {
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px;
+  }
+
+  .leaflet-popup-content-wrapper { border-radius: 10px; }
+  .leaflet-popup-content { direction: rtl; font-family: 'Heebo', Arial, sans-serif; margin: 10px 14px; }
+  .popup-title { font-weight: 800; color: var(--navy); font-size: 14px; margin-bottom: 3px; }
+  .popup-day { display:inline-block; background:#eef2f9; color:var(--red); border-radius:6px; padding:1px 7px; font-size:11px; font-weight:700; margin-bottom:5px; }
+  .popup-desc { font-size: 12.5px; color: var(--text-soft); line-height: 1.5; }
+  .leaflet-control-attribution { direction: ltr; font-size: 10px; }
+
+  #cityInfoBox {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-top: 14px;
+    min-height: 60px;
+  }
+  #cityInfoBox .cname { font-weight: 800; color: var(--red); font-size: 17px; margin-bottom: 4px; }
+  #cityInfoBox .cdesc { color: var(--text-soft); font-size: 14px; line-height: 1.6; }
+  #cityInfoBox .placeholder { color: #9aa5bd; font-size: 14px; }
+
+  .city-block { margin: 26px 0; scroll-margin-top: 70px; }
+  .city-block-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy);
+    color: #fff;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 15.5px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .city-block.pulse .city-block-label { animation: pulseBg 1.4s ease 2; }
+  @keyframes pulseBg { 0%,100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.5);} 50% { box-shadow: 0 0 0 8px rgba(192,57,43,0);} }
+
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-inline-start: 4px solid var(--red);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .day-card .daynum { font-weight: 800; color: var(--red); white-space: nowrap; min-width: 44px; }
+  .day-card .daytext { flex: 1; line-height: 1.65; font-size: 14.5px; }
+  .day-card .daytext b { color: var(--navy); }
+  .day-card label.dchk { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-soft); cursor: pointer; white-space: nowrap; }
+
+  /* ============ CHECKLIST ============ */
+  .checklist-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+  }
+  .checklist-group h3 { margin: 0 0 10px; font-size: 15.5px; color: var(--navy); }
+  label.chk-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14.5px;
+    line-height: 1.55;
+    transition: background .15s ease;
+  }
+  label.chk-item:hover { background: #f4f7fd; }
+  label.chk-item input[type=checkbox] {
+    margin-top: 3px;
+    width: 18px; height: 18px;
+    accent-color: var(--red);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  label.chk-item span.done-text { transition: color .15s ease, text-decoration .15s ease; }
+  label.chk-item input:checked ~ span.done-text {
+    color: #9aa5bd;
+    text-decoration: line-through;
+  }
+
+  /* ============ TIMELINE ============ */
+  .timeline { position: relative; padding-inline-start: 26px; margin: 18px 0; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 8px;
+    top: 6px; bottom: 6px;
+    width: 2px;
+    background: var(--border);
+  }
+  .tl-item { position: relative; margin-bottom: 20px; }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: -26px;
+    top: 3px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--red);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px var(--red);
+  }
+  .tl-item .tl-when { font-weight: 800; color: var(--red); font-size: 13.5px; margin-bottom: 2px; }
+  .tl-item .tl-what { color: var(--text); font-size: 14.5px; line-height: 1.6; }
+
+  /* ============ LINKS ============ */
+  .link-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (max-width: 700px) { .link-grid { grid-template-columns: 1fr; } }
+  a.link-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  a.link-card:hover { border-color: var(--red); transform: translateY(-2px); }
+  a.link-card .lic { font-size: 20px; }
+  a.link-card .ltxt .lt1 { font-weight: 700; font-size: 14px; color: var(--navy); }
+  a.link-card .ltxt .lt2 { font-size: 12px; color: var(--text-soft); }
+
+  /* ============ BUDGET TABLE ============ */
+  table.budget {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(20,30,60,0.05);
+    font-size: 13.5px;
+  }
+  table.budget th, table.budget td {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    text-align: start;
+    vertical-align: top;
+  }
+  table.budget th { background: var(--navy); color: #fff; font-weight: 700; }
+  table.budget tr:nth-child(even) td { background: #f7f9fd; }
+  table.budget tr.total-row td { background: #fdf3e6; font-weight: 800; }
+
+  .bar-chart { margin: 18px 0; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .bar-row .bar-label { width: 110px; font-size: 13px; color: var(--text-soft); flex-shrink: 0; }
+  .bar-row .bar-track { flex: 1; background: #eef1f8; border-radius: 8px; height: 22px; overflow: hidden; }
+  .bar-row .bar-fill { height: 100%; border-radius: 8px; display: flex; align-items: center; padding-inline-end: 8px; justify-content: flex-end; color: #fff; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+
+  .fx-note {
+    font-size: 12.5px;
+    color: var(--text-soft);
+    background: #eef2f9;
+    border: 1px solid #a9bde0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+  }
+
+  footer.pagefoot {
+    text-align: center;
+    padding: 24px 16px 40px;
+    color: var(--text-soft);
+    font-size: 12.5px;
+  }
+
+  small.tag { display:inline-block; background:#eef2f9; color:var(--navy); border-radius:6px; padding:2px 8px; font-size:11px; margin-inline-start:6px; }
+
+  /* Numeric ranges/fractions must stay in logical LTR order even inside RTL flow */
+  .ltr-num { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>יפן, יולי 2027 — טיול משפחתי</h1>
+  <div class="sub">14 יום · טוקיו · קיוטו · נארה · אוסקה · זוג + ילד בן 13 חובב פוקימון</div>
+  <div class="badges">
+    <span class="badge">🗼 טוקיו</span>
+    <span class="badge">⛩️ קיוטו ונארה</span>
+    <span class="badge">🏯 אוסקה</span>
+    <span class="badge">⚡ מסלול פוקימון</span>
+    <span class="badge">📄 מסמך עבודה חי</span>
+  </div>
+</header>
+
+<nav class="tabs" id="tabsNav">
+  <button class="active" onclick="switchTab('home')">🏠 ראשי</button>
+  <button onclick="switchTab('map')">🗺️ מסלול ומפה</button>
+  <button onclick="switchTab('budget')">💰 תקציב</button>
+  <button onclick="switchTab('checklist')">✅ צ'ק-ליסט וקישורים</button>
+</nav>
+
+<main>
+
+<!-- =================================================================== -->
+<!-- TAB 1: HOME -->
+<!-- =================================================================== -->
+<section id="tab-home" class="tab-panel active">
+
+  <h2 class="section-title">תמונת מצב</h2>
+  <p class="lead">מסמך עבודה חי לתכנון הטיול — אפשר לסמן ריבועים, לעבור בין הטאבים, ולעדכן יחד לאורך הדרך. הסימונים נשמרים כל עוד הדף פתוח בדפדפן (אם תרעננו את הדף הם יתאפסו).</p>
+
+  <div class="grid cols-4">
+    <div class="stat-card"><div class="num">14</div><div class="lbl">ימים</div></div>
+    <div class="stat-card"><div class="num">3</div><div class="lbl">ערים בסיס</div></div>
+    <div class="stat-card"><div class="num"><span class="ltr-num">23,000–40,000</span> ₪</div><div class="lbl">טווח תקציב</div></div>
+    <div class="stat-card"><div class="num">רמה 1</div><div class="lbl">אזהרת מסע (נמוכה)</div></div>
+  </div>
+
+  <h2 class="section-title">התקדמות התכנון</h2>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>סה"כ משימות שסומנו כבוצעו</span><span id="homeProgressText" class="ltr-num">0 / 0</span></div>
+    <div class="progress-track"><div class="progress-fill" id="homeProgressFill"></div></div>
+  </div>
+  <p class="lead" style="font-size:13px;">המספר מסכם את כל הסימונים בטאבים "מסלול ומפה" ו"צ'ק-ליסט". לחצו על "צ'ק-ליסט וקישורים" כדי להתחיל לסמן.</p>
+
+  <h2 class="section-title">הבדיקות הישראליות בקצרה</h2>
+  <div class="grid cols-2">
+    <div class="notice ok">
+      <div class="t">✔ ויזה</div>
+      אזרחים ישראלים פטורים מוויזה לשהות קצרת טווח כתייר ביפן <small class="tag">בדוק אוג׳ 2026</small>
+    </div>
+    <div class="notice ok">
+      <div class="t">✔ אזהרת מסע</div>
+      רמה 1 — איום נמוך, אין אזהרות מיוחדות (המל"ל) <small class="tag">בדוק אוג׳ 2026</small>
+    </div>
+  </div>
+  <div class="notice">
+    <div class="t">⚠ לזכור</div>
+    זה טיול שמתוכנן כשנה מראש — <b>חובה לבדוק שוב</b> ויזה ואזהרת מסע קרוב יותר למועד ההזמנה ולפני הטיסה. גם דרכון הילד (תוקף 5 שנים בלבד) כדאי לבדוק כבר עכשיו.
+  </div>
+
+  <h2 class="section-title">קפצו לטאב הרלוונטי</h2>
+  <div class="grid cols-3">
+    <div class="nav-card" onclick="switchTab('map')">
+      <div class="icon">🗺️</div>
+      <div class="title">מסלול ומפה</div>
+      <div class="desc">היום-יום מסודר לפי עיר, עם מפה אינטראקטיבית של הנקודות בטיול</div>
+    </div>
+    <div class="nav-card" onclick="switchTab('budget')">
+      <div class="icon">💰</div>
+      <div class="title">תקציב</div>
+      <div class="desc">הערכת עלויות מלאה: טיסות, לינה, תחבורה, כניסות ואוכל</div>
+    </div>
+    <div class="nav-card" onclick="switchTab('checklist')">
+      <div class="icon">✅</div>
+      <div class="title">צ'ק-ליסט וקישורים</div>
+      <div class="desc">ציר זמן להכנות, רשימת משימות לסימון, וקישורים שימושיים</div>
+    </div>
+  </div>
+
+  <h2 class="section-title">רעיונות נוספים שכדאי לשקול</h2>
+  <div class="grid cols-2">
+    <div class="notice info"><div class="t">📱 eSIM ליפן</div>גלישה מקומית זולה וללא צורך בהחלפת סים — כדאי להשוות ספקים כמו Ubigi / Airalo קרוב למועד.</div>
+    <div class="notice info"><div class="t">💳 Suica/Pasmo דיגיטלי</div>אפשר להוסיף לארנק הדיגיטלי בטלפון (Apple/Google Wallet) ולחסוך תור לקניית כרטיס בשדה התעופה.</div>
+    <div class="notice info"><div class="t">🈂️ תרגום בזמן אמת</div>אפליקציית Google Translate עם מצלמה (תרגום שלטים ותפריטים) שווה להתקין ולנסות מראש.</div>
+    <div class="notice info"><div class="t">🗾 מפות אופליין</div>להוריד מראש את אזורי טוקיו/קיוטו/אוסקה ב-Google Maps למקרה של בעיית קליטה.</div>
+  </div>
+
+</section>
+
+<!-- =================================================================== -->
+<!-- TAB 2: MAP + ITINERARY -->
+<!-- =================================================================== -->
+<section id="tab-map" class="tab-panel">
+
+  <h2 class="section-title">המסלול על המפה</h2>
+  <p class="lead">מפה אמיתית וניתנת לזום. במבט רחוק רואים רק את ארבע הערים והמסלול ביניהן. זומו אין (גלגלת עכבר / צביטה, או כפתורי ה-+/‏- בפינת המפה) כדי לראות את כל האתרים הספציפיים, הפוקימון-סנטרים, ואזורי הלינה המומלצים בכל עיר. לחיצה על נקודה פותחת פרטים.</p>
+
+  <div class="map-wrap" style="position:relative;">
+    <div id="leafletMap"></div>
+    <div class="zoom-hint">🔍 זומו אין לפרטים מלאים</div>
+
+    <div class="map-legend">
+      <span class="item"><span class="swatch" style="background:#c0392b"></span>טוקיו</span>
+      <span class="item"><span class="swatch" style="background:#1a2a4a"></span>קיוטו</span>
+      <span class="item"><span class="swatch" style="background:#d69b00"></span>נארה</span>
+      <span class="item"><span class="swatch" style="background:#219150"></span>אוסקה</span>
+      <span class="item"><span class="swatch" style="background:#9aa5bd"></span>יעדי יום טיול</span>
+      <span class="item"><span class="swatch sq" style="background:#e0a300"></span>אתרי פוקימון/גיימינג</span>
+      <span class="item"><span class="swatch sq" style="background:#5b6883"></span>אזור לינה מומלץ</span>
+    </div>
+  </div>
+
+  <div id="cityInfoBox"><div class="placeholder">👆 לחצו על נקודה במפה כדי לראות פרטים (זומו אין לעוד אתרים)</div></div>
+
+  <h2 class="section-title">התקדמות תכנון הימים</h2>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>ימים שסומנו כמתוכננים</span><span id="dayProgressText" class="ltr-num">0 / 14</span></div>
+    <div class="progress-track"><div class="progress-fill" id="dayProgressFill"></div></div>
+  </div>
+
+  <div class="notice info" style="margin-top:18px;">
+    <div class="t">💡 המלצת טיסה</div>
+    טיסת "Open Jaw": נחיתה בטוקיו (נריטה/הנדה), המראה חזרה מאוסקה (קאנסאי) — חוסך נסיעה מיותרת חזרה לטוקיו בסוף הטיול.
+  </div>
+
+  <!-- ===== TOKYO ===== -->
+  <div class="city-block" id="city-tokyo">
+    <div class="city-block-label">🗼 טוקיו — ימים <span class="ltr-num">1–7</span> (<span class="ltr-num">6–7</span> לילות)</div>
+
+    <div class="day-card"><div class="daynum">יום 1</div><div class="daytext">טיסה, נחיתה בטוקיו, הגעה למלון, ערב רגוע. שינג'וקו או שיבויה מומלצים כבסיס לינה.</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 2</div><div class="daytext">שיבויה (מעבר החציה, פסל האצ'יקו) ← <b>Nintendo Tokyo</b> ו-<b>Pokémon Center Shibuya</b> ← הראג'וקו (Takeshita Street, קפה תמה).</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 3</div><div class="daytext">אסאקוסה (מקדש סנסוג'י) ← <b>Tokyo Skytree</b> + <b>Pokémon Center Skytree Town</b> ← שיט קצר על נהר סומידה.</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 4</div><div class="daytext">אקיהברה — רובע גיימינג/אלקטרוניקה/אנימה. אם הוזמן מראש: <b>Pokémon Café</b> (חובה הזמנה חודשים מראש!).</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 5</div><div class="daytext">יום טיול לבחירה: <b>ניקקו</b> (מקדשים וטבע) / <b>הקונה</b> (נוף פוג'י, רכבל, אונסן) / <b>קמאקורה</b> (בודהה הענק, חוף — הקל מבין השלושה).</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 6</div><div class="daytext">איקבוקורו — Sunshine City, <b>Pokémon Center Mega Tokyo</b> (הגדול ביפן) + אקווריום Sunshine. אופציה: teamLab.</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 7</div><div class="daytext">בוקר חופשי / קניות אחרונות, נסיעה בשינקנסן לקיוטו (כ-2.5 שעות). כדאי לשבת בצד ימין לצפות בהר פוג'י.</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+  </div>
+
+  <!-- ===== KYOTO ===== -->
+  <div class="city-block" id="city-kyoto">
+    <div class="city-block-label">⛩️ קיוטו + נארה — ימים <span class="ltr-num">8–11</span> (<span class="ltr-num">3–4</span> לילות)</div>
+
+    <div class="day-card"><div class="daynum">יום 8</div><div class="daytext">פושימי אינרי — אלפי שערי טוריי אדומים. אחר הצהריים: גיון, הרובע המסורתי (אפשר לראות גיישות).</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 9</div><div class="daytext">ארשיאמה (יער הבמבוק) + מקדש קינקאקוג'י (הביתן הזהוב).</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 10</div><div class="daytext">יום טיול לנארה (כ-45 דק' ברכבת) — פארק הצבאים (מאות צבאים חופשיים), מקדש טודאיג'י.</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 11</div><div class="daytext">בוקר בקיוטו, נסיעה לאוסקה (כ-30 דקות בלבד ברכבת).</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+  </div>
+
+  <!-- ===== OSAKA ===== -->
+  <div class="city-block" id="city-osaka">
+    <div class="city-block-label">🏯 אוסקה — ימים <span class="ltr-num">12–14</span> (3 לילות)</div>
+
+    <div class="day-card"><div class="daynum">יום 12</div><div class="daytext"><b>Universal Studios Japan</b> — יום מלא. <b>Super Nintendo World</b> הוא הכוכב לילד גיימר — מומלץ Express Pass מראש.</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 13</div><div class="daytext"><b>Pokémon Center Osaka</b> (נמבה) ← דוטומבורי (רובע האוכל) ← טירת אוסקה.</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+
+    <div class="day-card"><div class="daynum">יום 14</div><div class="daytext">בוקר אחרון — שוק Kuromon Ichiba, נסיעה לשדה קאנסאי (KIX) וטיסה חזרה.</div><label class="dchk"><input type="checkbox" class="dayChk"> מתוכנן</label></div>
+  </div>
+
+  <div class="city-block" id="city-daytrip">
+    <div class="city-block-label" style="background:#7f8c8d;">🚃 יעדי יום טיול אופציונליים מטוקיו</div>
+    <div class="day-card"><div class="daytext"><b>ניקקו</b> — מקדשים ויער עתיק, מסע רכבת יפה (כשעתיים מטוקיו). <b>הקונה</b> — נוף להר פוג'י, אגם, רכבל, אונסן. <b>קמאקורה</b> — בודהה הענק וחוף ים, הקל והקצר מבין השלושה.</div></div>
+  </div>
+
+</section>
+
+<!-- =================================================================== -->
+<!-- TAB 3: BUDGET -->
+<!-- =================================================================== -->
+<section id="tab-budget" class="tab-panel">
+
+  <h2 class="section-title">הערכת תקציב (2 מבוגרים + ילד, 14 יום)</h2>
+
+  <div class="fx-note">
+    💱 שער חליפין ששימש לחישוב (אוגוסט 2026): 100 JPY ≈ 1.94 ₪ | 1 USD ≈ 3.03 ₪ | 1 USD ≈ 156 JPY. זהו טיול שמתוכנן כשנה וחצי מראש — יש לראות בטבלה הערכת סדר-גודל בלבד ולבדוק שוב בהתקרב המועד.
+  </div>
+
+  <div class="grid cols-2">
+    <div class="stat-card"><div class="num"><span class="ltr-num">23,000–40,000</span> ₪</div><div class="lbl">סה"כ כולל טיסות (≈ <span class="ltr-num">$7,590–13,200</span>)</div></div>
+    <div class="stat-card"><div class="num"><span class="ltr-num">14,000–24,000</span> ₪</div><div class="lbl">סה"כ ללא טיסות (≈ <span class="ltr-num">$4,620–7,920</span>)</div></div>
+  </div>
+
+  <h2 class="section-title" style="margin-top:26px;">פילוח לפי קטגוריה (אמצע הטווח)</h2>
+  <div class="bar-chart">
+    <div class="bar-row"><div class="bar-label">טיסות</div><div class="bar-track"><div class="bar-fill" style="width:100%; background:#c0392b;">₪12,500</div></div></div>
+    <div class="bar-row"><div class="bar-label">לינה</div><div class="bar-track"><div class="bar-fill" style="width:50%; background:#1a2a4a;">₪6,250</div></div></div>
+    <div class="bar-row"><div class="bar-label">אוכל</div><div class="bar-track"><div class="bar-fill" style="width:29%; background:#219150;">₪3,675</div></div></div>
+    <div class="bar-row"><div class="bar-label">תחבורה</div><div class="bar-track"><div class="bar-fill" style="width:26%; background:#2980b9;">₪3,250</div></div></div>
+    <div class="bar-row"><div class="bar-label">שונות</div><div class="bar-track"><div class="bar-fill" style="width:24%; background:#7f8c8d;">₪3,000</div></div></div>
+    <div class="bar-row"><div class="bar-label">אטרקציות</div><div class="bar-track"><div class="bar-fill" style="width:14%; background:#d69b00;">₪1,750</div></div></div>
+    <div class="bar-row"><div class="bar-label">ביטוח</div><div class="bar-track"><div class="bar-fill" style="width:5%; background:#8e44ad;">₪675</div></div></div>
+  </div>
+
+  <h2 class="section-title">טבלה מלאה</h2>
+  <table class="budget">
+    <tr><th>קטגוריה</th><th>טווח ב-₪</th><th>מקבילה ($ / ¥)</th><th>הערות</th></tr>
+    <tr>
+      <td>טיסות (הלוך-חזור, 3 נוסעים)</td>
+      <td><b><span class="ltr-num">9,000–16,000</span> ₪</b></td>
+      <td>≈ <span class="ltr-num">$2,970–5,280</span></td>
+      <td>קונקשן רגיל (טורקיש/אתיופיאן/לופטהנזה) ≈<span class="ltr-num">2,800–4,000</span> ₪ (<span class="ltr-num">$920–1,320</span>) לנוסע. קו ישיר חדש של ארקיע: ≈$1,500 (≈4,545 ₪) לנוסע הלוך-חזור — נוח יותר, יקר יותר במחיר השקה</td>
+    </tr>
+    <tr>
+      <td>לינה (13 לילות)</td>
+      <td><b><span class="ltr-num">5,000–7,500</span> ₪</b></td>
+      <td>≈ <span class="ltr-num">$1,650–2,470</span> / <span class="ltr-num">¥253,000–374,000</span></td>
+      <td>חדר משפחתי/דירת שירות ל-3: טוקיו ≈<span class="ltr-num">¥20,000–30,000</span> (<span class="ltr-num">$128–192</span>) ללילה, קיוטו ≈<span class="ltr-num">¥22,000–32,000</span> (<span class="ltr-num">$141–205</span>, היקרה מהשלוש), אוסקה ≈<span class="ltr-num">¥15,000–22,000</span> (<span class="ltr-num">$96–141</span>, הזולה ביותר)</td>
+    </tr>
+    <tr>
+      <td>תחבורה בתוך יפן</td>
+      <td><b><span class="ltr-num">2,500–4,000</span> ₪</b></td>
+      <td>≈ <span class="ltr-num">$825–1,320</span> / <span class="ltr-num">¥129,000–206,000</span></td>
+      <td>JR Pass ל-14 יום: ¥80,000 ($513, ≈1,552 ₪) למבוגר, חצי מחיר לילד. ייתכן שכרטיסים בודדים + כרטיס IC (Suica) יוצאים זולים יותר למסלול הזה</td>
+    </tr>
+    <tr>
+      <td>כניסות ואטרקציות</td>
+      <td><b><span class="ltr-num">1,300–2,200</span> ₪</b></td>
+      <td>≈ <span class="ltr-num">$430–725</span> / <span class="ltr-num">¥67,000–113,000</span></td>
+      <td>USJ Studio Pass ≈¥8,927 ($57) למבוגר + Express Pass ≈¥9,800+ ($63). Skytree ≈<span class="ltr-num">¥2,100–3,500</span> (<span class="ltr-num">$13–22</span>). קינקאקוג'י/טודאיג'י ≈<span class="ltr-num">¥500–800</span> (<span class="ltr-num">$3–5</span>) כ"א. פושימי אינרי, ארשיאמה, אסאקוסה וגיון — חינם</td>
+    </tr>
+    <tr>
+      <td>אוכל (14 יום, 3 סועדים)</td>
+      <td><b><span class="ltr-num">2,850–4,500</span> ₪</b></td>
+      <td>≈ <span class="ltr-num">$940–1,480</span> / <span class="ltr-num">¥147,000–231,000</span></td>
+      <td>≈<span class="ltr-num">¥3,500–5,500</span> (<span class="ltr-num">$22–35</span>) לאדם ליום: בוקר בקומביני, צהריים במסעדה, ערב קז'ואל. Pokémon Café יקר יותר — לא נכלל בממוצע</td>
+    </tr>
+    <tr>
+      <td>ביטוח נסיעות</td>
+      <td><b><span class="ltr-num">450–900</span> ₪</b></td>
+      <td>≈ <span class="ltr-num">$150–300</span></td>
+      <td>ל-3 אנשים, 14 יום — לוודא כיסוי פעילויות הרפתקניות אם רלוונטי</td>
+    </tr>
+    <tr>
+      <td>שונות / מזכרות / קניות</td>
+      <td><b><span class="ltr-num">2,000–4,000</span> ₪</b></td>
+      <td>≈ <span class="ltr-num">$660–1,320</span></td>
+      <td>תלוי במשפחה, כולל מזכרות פוקימון</td>
+    </tr>
+    <tr class="total-row">
+      <td>סה"כ (כולל טיסות)</td>
+      <td>≈ <span class="ltr-num">23,000–40,000</span> ₪</td>
+      <td>≈ <span class="ltr-num">$7,590–13,200</span></td>
+      <td>≈ <span class="ltr-num">7,700–13,300</span> ₪ לאדם</td>
+    </tr>
+    <tr class="total-row">
+      <td>סה"כ (ללא טיסות)</td>
+      <td>≈ <span class="ltr-num">14,000–24,000</span> ₪</td>
+      <td>≈ <span class="ltr-num">$4,620–7,920</span></td>
+      <td>—</td>
+    </tr>
+  </table>
+
+  <div class="notice" style="margin-top:16px;">
+    <div class="t">💡 נקודה שכדאי לדעת</div>
+    הפער הגדול בין תחתית לתקרת הטווח נובע בעיקר מסגנון הטיסה (קונקשן זול מול קו ישיר) ומרמת המלונות שתבחרו. הין נחלש משמעותית מול השקל בשנה האחרונה, מה שהופך את יפן ליעד זול יחסית כרגע מבחינת לינה ואוכל.
+  </div>
+
+</section>
+
+<!-- =================================================================== -->
+<!-- TAB 4: CHECKLIST + LINKS -->
+<!-- =================================================================== -->
+<section id="tab-checklist" class="tab-panel">
+
+  <h2 class="section-title">התקדמות כללית</h2>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>משימות שהושלמו</span><span id="checklistProgressText" class="ltr-num">0 / 0</span></div>
+    <div class="progress-track"><div class="progress-fill" id="checklistProgressFill"></div></div>
+  </div>
+
+  <h2 class="section-title">ציר זמן מומלץ להכנות</h2>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-when">כבר עכשיו (כ-12 חודשים לפני)</div><div class="tl-what">לקבוע תאריכים מדויקים ביולי, לבדוק תוקף דרכון הילד, להתחיל לעקוב אחרי מחירי טיסות.</div></div>
+    <div class="tl-item"><div class="tl-when">6–9 חודשים לפני</div><div class="tl-what">להזמין טיסות ומלונות, להחליט אם JR Pass משתלם למסלול.</div></div>
+    <div class="tl-item"><div class="tl-when">3 חודשים לפני</div><div class="tl-what">להזמין מקום ב-Pokémon Café, לרכוש כרטיסי USJ + Express Pass.</div></div>
+    <div class="tl-item"><div class="tl-when">6 שבועות לפני</div><div class="tl-what">תור למרפאת מטייל אם נדרשים חיסונים, לוודא ביטוח נסיעות.</div></div>
+    <div class="tl-item"><div class="tl-when">2–4 שבועות לפני</div><div class="tl-what">לרכוש eSIM, לסיים אריזה, להוריד מפות אופליין ואפליקציות תרגום.</div></div>
+  </div>
+
+  <h2 class="section-title">רשימת משימות</h2>
+
+  <div class="checklist-group">
+    <h3>📄 מסמכים וזמינות</h3>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">לבדוק תוקף דרכון הילד (בתוקף 5 שנים בלבד, לא 10 כמו מבוגר)</span></label>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">לבדוק שוב ויזה ואזהרת מסע קרוב למועד ההזמנה (המל"ל ומשרד החוץ)</span></label>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">לרכוש ביטוח נסיעות ולוודא כיסוי לפעילויות הרפתקניות אם רלוונטי</span></label>
+  </div>
+
+  <div class="checklist-group">
+    <h3>🗓️ החלטות משפחתיות</h3>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">לקבוע תאריכים מדויקים ביולי (לשקול פסטיבל גיון, <span class="ltr-num">17–24/7</span>)</span></label>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">להחליט על יום טיול נוסף: ניקקו / הקונה / קמאקורה</span></label>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">להחליט על סגנון לינה (מלון / דירת שירות / ריוקאן ללילה אחד)</span></label>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">לגבש תקציב סופי</span></label>
+  </div>
+
+  <div class="checklist-group">
+    <h3>🎫 הזמנות מראש</h3>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">להזמין טיסות (להשוות קונקשן מול קו ישיר של ארקיע)</span></label>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">להזמין מלונות/דירות</span></label>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">להזמין מקום ב-Pokémon Café (נפתח כ-3 חודשים מראש, ממלא מהר)</span></label>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">לרכוש כרטיסי USJ + Express Pass מראש</span></label>
+    <label class="chk-item"><input type="checkbox" class="ckItem"><span class="done-text">להחליט אם JR Pass משתלם ולרכוש בהתאם</span></label>
+  </div>
+
+  <h2 class="section-title">קישורים שימושיים להמשך עבודה</h2>
+  <div class="link-grid">
+    <a class="link-card" href="https://www.google.com/travel/flights/flights-from-tel-aviv-yafo-to-tokyo.html?gl=IL&hl=iw" target="_blank" rel="noopener">
+      <span class="lic">✈️</span><span class="ltxt"><div class="lt1">Google Flights — תל אביב לטוקיו</div><div class="lt2">השוואת טיסות</div></span>
+    </a>
+    <a class="link-card" href="https://www.he.kayak.com/flight-routes/Tel-Aviv-Ben-Gurion-Intl-TLV/Japan-JP0" target="_blank" rel="noopener">
+      <span class="lic">✈️</span><span class="ltxt"><div class="lt1">Kayak — טיסות ליפן</div><div class="lt2">השוואת מחירים</div></span>
+    </a>
+    <a class="link-card" href="https://japanrailpass.net/en/" target="_blank" rel="noopener">
+      <span class="lic">🚄</span><span class="ltxt"><div class="lt1">Japan Rail Pass — אתר רשמי</div><div class="lt2">מחירים ורכישה</div></span>
+    </a>
+    <a class="link-card" href="https://www.usj.co.jp/web/en/us" target="_blank" rel="noopener">
+      <span class="lic">🎢</span><span class="ltxt"><div class="lt1">Universal Studios Japan</div><div class="lt2">כרטיסים רשמיים</div></span>
+    </a>
+    <a class="link-card" href="https://www.pokemon-cafe.jp/en/cafe/reservation.html" target="_blank" rel="noopener">
+      <span class="lic">🍽️</span><span class="ltxt"><div class="lt1">Pokémon Café — הזמנת מקום</div><div class="lt2">אתר רשמי</div></span>
+    </a>
+    <a class="link-card" href="https://shop.pokemon.co.jp/en/" target="_blank" rel="noopener">
+      <span class="lic">🛍️</span><span class="ltxt"><div class="lt1">Pokémon Center — כל הסניפים</div><div class="lt2">אתר רשמי</div></span>
+    </a>
+    <a class="link-card" href="https://www.nsc.gov.il/he/Travel-Warnings/Pages/default.aspx" target="_blank" rel="noopener">
+      <span class="lic">🛂</span><span class="ltxt"><div class="lt1">אזהרות מסע — המל"ל</div><div class="lt2">לבדוק לפני ההזמנה</div></span>
+    </a>
+    <a class="link-card" href="https://www.gov.il/he/departments/dynamiccollectors/travel_warnings" target="_blank" rel="noopener">
+      <span class="lic">🛂</span><span class="ltxt"><div class="lt1">המלצות מסע — משרד החוץ</div><div class="lt2">לבדוק לפני ההזמנה</div></span>
+    </a>
+    <a class="link-card" href="https://www.israel.emb-japan.go.jp/itpr_en/visa.html" target="_blank" rel="noopener">
+      <span class="lic">🇯🇵</span><span class="ltxt"><div class="lt1">שגרירות יפן בישראל — ויזה</div><div class="lt2">בדיקת דרישות עדכניות</div></span>
+    </a>
+    <a class="link-card" href="https://www.gov.il/he/service/application_for_biometric_passport2" target="_blank" rel="noopener">
+      <span class="lic">📘</span><span class="ltxt"><div class="lt1">חידוש דרכון — רשות האוכלוסין</div><div class="lt2">לבדוק תוקף ולתאם תור</div></span>
+    </a>
+    <a class="link-card" href="https://www.japan.travel/en/spot/83/" target="_blank" rel="noopener">
+      <span class="lic">🎏</span><span class="ltxt"><div class="lt1">פסטיבל גיון — קיוטו</div><div class="lt2">תאריכים ותוכנית</div></span>
+    </a>
+  </div>
+
+</section>
+
+</main>
+
+<footer class="pagefoot">
+  מסמך עבודה חי לתכנון הטיול — עדכנו יחד לאורך הדרך 🎒
+</footer>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.remove('active'); });
+    document.getElementById('tab-' + id).classList.add('active');
+    var idx = { home:0, map:1, budget:2, checklist:3 }[id];
+    document.querySelectorAll('nav.tabs button')[idx].classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+    if (id === 'map') {
+      setTimeout(function(){
+        if (!window.leafletMapInstance) {
+          initLeafletMap();
+        } else {
+          window.leafletMapInstance.invalidateSize();
+        }
+      }, 80);
+    }
+  }
+
+  /* =====================================================================
+     LEAFLET MAP — real, zoomable map of the route.
+     Zoomed out: only the 4 base cities + optional day-trip spots + route line.
+     Zoomed in (per city): every specific site/Pokémon spot/lodging area shown.
+  ===================================================================== */
+  var CITY_PINS = [
+    { key:'tokyo',  coords:[35.6895,139.6917], color:'#c0392b', icon:'🗼', name:'טוקיו',
+      desc:'ימים <span class="ltr-num">1–7</span> · <span class="ltr-num">6–7</span> לילות · Pokémon Center שיבויה / סקייטרי / איקבוקורו, אקיהברה, Pokémon Café, יום טיול לניקקו/הקונה/קמאקורה.' },
+    { key:'kyoto',  coords:[35.0116,135.7681], color:'#1a2a4a', icon:'⛩️', name:'קיוטו',
+      desc:'ימים <span class="ltr-num">8–11</span> · <span class="ltr-num">3–4</span> לילות · פושימי אינרי, ארשיאמה, קינקאקוג\'י, יום בנארה עם פארק הצבאים.' },
+    { key:'kyoto2', coords:[34.6851,135.8048], color:'#d69b00', icon:'🦌', name:'נארה',
+      desc:'יום טיול מקיוטו (יום <span class="ltr-num">10</span>) · פארק הצבאים ומקדש טודאיג\'י.', linkKey:'kyoto' },
+    { key:'osaka',  coords:[34.6937,135.5023], color:'#219150', icon:'🏯', name:'אוסקה',
+      desc:'ימים <span class="ltr-num">12–14</span> · 3 לילות · Universal Studios Japan + Super Nintendo World, Pokémon Center Osaka, דוטומבורי.' }
+  ];
+
+  var DAYTRIP_PINS = [
+    { coords:[36.7580,139.5990], name:'ניקקו', desc:'אופציה ליום 5 · מקדשים ויער עתיק, מסע רכבת יפה מטוקיו.' },
+    { coords:[35.2323,139.0247], name:'הקונה', desc:'אופציה ליום 5 · נוף להר פוג׳י, אגם, רכבל, אונסן.' },
+    { coords:[35.3193,139.5466], name:'קמאקורה', desc:'אופציה ליום 5 · בודהה הענק וחוף ים, הקל והקצר מבין השלושה.' }
+  ];
+
+  var POKEMON_COLOR = '#e0a300';
+  var HOTEL_COLOR = '#5b6883';
+
+  var DETAIL_PINS = [
+    // --- Tokyo ---
+    { coords:[35.6618,139.6982], name:'שיבויה — Pokémon Center + Nintendo Tokyo', day:'יום 2', cat:'poke', color:POKEMON_COLOR, desc:'מעבר החציה המפורסם, פסל האצ׳יקו, Pokémon Center Shibuya, Nintendo Tokyo (Shibuya PARCO).' },
+    { coords:[35.6702,139.7027], name:'הראג׳וקו — Takeshita Street', day:'יום 2', cat:'sight', color:'#c0392b', desc:'רחוב קניות תוסס, קפה תמה, אופנת רחוב.' },
+    { coords:[35.7148,139.7967], name:'אסאקוסה — מקדש סנסוג׳י', day:'יום 3', cat:'sight', color:'#c0392b', desc:'המקדש הבודהיסטי העתיק ביותר בטוקיו.' },
+    { coords:[35.7101,139.8107], name:'טוקיו סקייטרי + Pokémon Center Skytree Town', day:'יום 3', cat:'poke', color:POKEMON_COLOR, desc:'מגדל התצפית הגבוה ביפן, ומרכז פוקימון בקומפלקס הסמוך.' },
+    { coords:[35.6984,139.7731], name:'אקיהברה', day:'יום 4', cat:'sight', color:'#c0392b', desc:'רובע גיימינג / אלקטרוניקה / אנימה — גן עדן לילד גיימר.' },
+    { coords:[35.6828,139.7745], name:'Pokémon Café (ניהונבאשי)', day:'יום 4', cat:'poke', color:POKEMON_COLOR, desc:'חובה הזמנה מראש — נפתח כ-3 חודשים לפני, ממלא מהר.' },
+    { coords:[35.7295,139.7189], name:'איקבוקורו — Pokémon Center Mega Tokyo', day:'יום 6', cat:'poke', color:POKEMON_COLOR, desc:'המרכז הגדול ביפן, בתוך Sunshine City. גם אקווריום Sunshine בסמוך.' },
+    { coords:[35.6896,139.7006], name:'אזור לינה מומלץ — שינג׳וקו/שיבויה', day:null, cat:'hotel', color:HOTEL_COLOR, desc:'בסיס נוח לטוקיו — קרוב לתחבורה, המון אוכל ומגוון מלונות.' },
+    // --- Kyoto ---
+    { coords:[34.9671,135.7727], name:'פושימי אינרי', day:'יום 8', cat:'sight', color:'#1a2a4a', desc:'אלפי שערי טוריי אדומים — אחד האתרים המצולמים ביותר ביפן.' },
+    { coords:[35.0037,135.7788], name:'גיון', day:'יום 8', cat:'sight', color:'#1a2a4a', desc:'הרובע המסורתי — אפשר לראות גיישות. חלק מפסטיבל גיון ביולי.' },
+    { coords:[35.0094,135.6668], name:'ארשיאמה — יער הבמבוק', day:'יום 9', cat:'sight', color:'#1a2a4a', desc:'יער במבוק מרהיב, קרוב לגשר טוגצוקיו.' },
+    { coords:[35.0394,135.7292], name:'קינקאקוג׳י — הביתן הזהוב', day:'יום 9', cat:'sight', color:'#1a2a4a', desc:'אחד המקדשים המצולמים ביותר בקיוטו.' },
+    { coords:[35.0038,135.7686], name:'אזור לינה מומלץ — קווארמאצ׳י/שיג׳ו', day:null, cat:'hotel', color:HOTEL_COLOR, desc:'מרכז קיוטו, קרוב לגיון ולתחבורה, מרחק הליכה מרוב האתרים.' },
+    // --- Nara ---
+    { coords:[34.6890,135.8398], name:'פארק הצבאים + טודאיג׳י', day:'יום 10', cat:'sight', color:'#d69b00', desc:'מאות צבאים חופשיים (קידה תמורת חטיף) ומקדש הבודהה הענק.' },
+    // --- Osaka ---
+    { coords:[34.6654,135.4323], name:'Universal Studios Japan + Super Nintendo World', day:'יום 12', cat:'poke', color:POKEMON_COLOR, desc:'מריו, דונקי קונג — הכוכב לילד גיימר. מומלץ Express Pass מראש.' },
+    { coords:[34.6656,135.5008], name:'Pokémon Center Osaka (נמבה)', day:'יום 13', cat:'poke', color:POKEMON_COLOR, desc:'בבניין Namba Marui.' },
+    { coords:[34.6687,135.5013], name:'דוטומבורי', day:'יום 13', cat:'sight', color:'#219150', desc:'רובע האוכל והשלטים הענקיים — חוויה בפני עצמה בערב.' },
+    { coords:[34.6873,135.5259], name:'טירת אוסקה', day:null, cat:'sight', color:'#219150', desc:'אחת הטירות המפורסמות ביפן, שווה קפיצה אם יש זמן.' },
+    { coords:[34.6657,135.5065], name:'שוק Kuromon Ichiba', day:'יום 14', cat:'sight', color:'#219150', desc:'שוק אוכל תוסס — טוב לבוקר אחרון לפני הטיסה.' },
+    { coords:[34.6663,135.5010], name:'אזור לינה מומלץ — נמבה', day:null, cat:'hotel', color:HOTEL_COLOR, desc:'קרוב לפוקימון סנטר, לדוטומבורי, ולרכבת לאוניברסל.' }
+  ];
+
+  function catIcon(cat) {
+    if (cat === 'poke') return '⚡';
+    if (cat === 'hotel') return '🏨';
+    return '📍';
+  }
+
+  function makeCityDivIcon(pin) {
+    return L.divIcon({
+      className: '',
+      html: '<div class="pin-city" style="background:' + pin.color + ';"><span>' + pin.icon + '</span></div>',
+      iconSize: [26,26],
+      iconAnchor: [13,26],
+      popupAnchor: [0,-24]
+    });
+  }
+  function makeDetailDivIcon(pin) {
+    return L.divIcon({
+      className: '',
+      html: '<div class="pin-detail" style="background:' + pin.color + ';">' + catIcon(pin.cat) + '</div>',
+      iconSize: [15,15],
+      iconAnchor: [7,7],
+      popupAnchor: [0,-8]
+    });
+  }
+  function makeDaytripDivIcon() {
+    return L.divIcon({
+      className: '',
+      html: '<div class="pin-city" style="background:#9aa5bd; width:20px; height:20px;"><span style="font-size:10px;">🚃</span></div>',
+      iconSize: [20,20],
+      iconAnchor: [10,20],
+      popupAnchor: [0,-18]
+    });
+  }
+
+  function popupHtml(title, dayTag, desc) {
+    var h = '<div class="popup-title">' + title + '</div>';
+    if (dayTag) h += '<div class="popup-day">' + dayTag + '</div>';
+    h += '<div class="popup-desc">' + desc + '</div>';
+    return h;
+  }
+
+  function initLeafletMap() {
+    if (window.leafletMapInstance || typeof L === 'undefined') return;
+    var map = L.map('leafletMap', { scrollWheelZoom: true, zoomControl: true }).setView([35.05, 137.4], 6);
+    window.leafletMapInstance = map;
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // route line connecting the 3 bases in order (Tokyo -> Kyoto -> Osaka)
+    L.polyline([CITY_PINS[0].coords, CITY_PINS[1].coords, CITY_PINS[3].coords], {
+      color:'#c0392b', weight:3, dashArray:'8,7', opacity:0.85, lineCap:'round'
+    }).addTo(map);
+    // spur line Kyoto <-> Nara
+    L.polyline([CITY_PINS[1].coords, CITY_PINS[2].coords], {
+      color:'#1a2a4a', weight:2, dashArray:'4,6', opacity:0.6
+    }).addTo(map);
+    // dotted connectors Tokyo <-> optional day trips
+    DAYTRIP_PINS.forEach(function(dt){
+      L.polyline([CITY_PINS[0].coords, dt.coords], { color:'#9aa5bd', weight:1.5, dashArray:'2,5', opacity:0.7 }).addTo(map);
+    });
+
+    // city-level markers (always visible)
+    CITY_PINS.forEach(function(pin){
+      var m = L.marker(pin.coords, { icon: makeCityDivIcon(pin), riseOnHover:true }).addTo(map);
+      m.bindPopup(popupHtml(pin.name + ' ' + pin.icon, null, pin.desc));
+      var scrollKey = pin.linkKey ? pin.linkKey : pin.key;
+      m.on('click', function(){ focusCity(scrollKey); });
+    });
+
+    // optional day-trip markers (always visible, small)
+    DAYTRIP_PINS.forEach(function(dt){
+      var m = L.marker(dt.coords, { icon: makeDaytripDivIcon() }).addTo(map);
+      m.bindPopup(popupHtml(dt.name + ' 🚃', 'יום 5 (אופציה)', dt.desc));
+    });
+
+    // detail markers (toggled by zoom)
+    var detailLayer = L.layerGroup();
+    DETAIL_PINS.forEach(function(pin){
+      var m = L.marker(pin.coords, { icon: makeDetailDivIcon(pin) });
+      m.bindPopup(popupHtml(pin.name, pin.day, pin.desc));
+      detailLayer.addLayer(m);
+    });
+    window.leafletDetailLayer = detailLayer;
+
+    var ZOOM_THRESHOLD = 10;
+    var detailShown = false;
+    function syncDetailLayer() {
+      var shouldShow = map.getZoom() >= ZOOM_THRESHOLD;
+      if (shouldShow && !detailShown) { detailLayer.addTo(map); detailShown = true; }
+      else if (!shouldShow && detailShown) { map.removeLayer(detailLayer); detailShown = false; }
+    }
+    map.on('zoomend', syncDetailLayer);
+    syncDetailLayer();
+
+    // fit bounds to show the whole route on first load
+    var allPts = CITY_PINS.map(function(p){ return p.coords; }).concat(DAYTRIP_PINS.map(function(p){ return p.coords; }));
+    map.fitBounds(allPts, { padding: [30,30] });
+  }
+
+  function focusCity(key) {
+    switchTab('map');
+    var info = {
+      tokyo: { name: 'טוקיו 🗼', desc: 'ימים <span class="ltr-num">1–7</span> · <span class="ltr-num">6–7</span> לילות · Pokémon Center שיבויה / סקייטרי / איקבוקורו, אקיהברה, Pokémon Café, יום טיול לניקקו/הקונה/קמאקורה.' },
+      kyoto: { name: 'קיוטו + נארה ⛩️', desc: 'ימים <span class="ltr-num">8–11</span> · <span class="ltr-num">3–4</span> לילות · פושימי אינרי, ארשיאמה, קינקאקוג\'י, יום בנארה עם פארק הצבאים.' },
+      osaka: { name: 'אוסקה 🏯', desc: 'ימים <span class="ltr-num">12–14</span> · 3 לילות · Universal Studios Japan + Super Nintendo World, Pokémon Center Osaka, דוטומבורי.' },
+      daytrip: { name: 'יעדי יום טיול מטוקיו 🚃', desc: 'ניקקו (מקדשים וטבע), הקונה (נוף פוג\'י ואונסן), או קמאקורה (בודהה הענק וחוף) — בוחרים אחד ליום 5.' }
+    }[key];
+    var box = document.getElementById('cityInfoBox');
+    box.innerHTML = '<div class="cname">' + info.name + '</div><div class="cdesc">' + info.desc + '</div>';
+
+    var blockId = 'city-' + key;
+    var block = document.getElementById(blockId);
+    if (block) {
+      setTimeout(function(){
+        block.scrollIntoView({behavior:'smooth', block:'start'});
+        block.classList.add('pulse');
+        setTimeout(function(){ block.classList.remove('pulse'); }, 3000);
+      }, 150);
+    }
+  }
+
+  function updateProgress(checkboxSelector, fillId, textId) {
+    var boxes = document.querySelectorAll(checkboxSelector);
+    var total = boxes.length;
+    var checkedSelector = checkboxSelector.split(',').map(function(s){ return s.trim() + ':checked'; }).join(', ');
+    var checked = document.querySelectorAll(checkedSelector).length;
+    var pct = total ? Math.round(checked / total * 100) : 0;
+    var fill = document.getElementById(fillId);
+    var text = document.getElementById(textId);
+    if (fill) fill.style.width = pct + '%';
+    if (text) text.textContent = checked + ' / ' + total;
+  }
+
+  function updateAllProgress() {
+    updateProgress('.dayChk', 'dayProgressFill', 'dayProgressText');
+    updateProgress('.ckItem', 'checklistProgressFill', 'checklistProgressText');
+    updateProgress('.dayChk, .ckItem', 'homeProgressFill', 'homeProgressText');
+  }
+
+  document.querySelectorAll('.dayChk, .ckItem').forEach(function(cb){
+    cb.addEventListener('change', updateAllProgress);
+  });
+
+  updateAllProgress();
+  // If the page ever loads with the map tab already active, init immediately too.
+  if (document.getElementById('tab-map').classList.contains('active')) { initLeafletMap(); }
+</script>
+
+</body>
+</html>
