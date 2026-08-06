@@ -18,6 +18,13 @@
 **מה כולל החיפוש:** טיסות ישירות **וגם** טיסות עם קונקשן — אך ורק כאלה שזמן ההמתנה
 בהן **אינו עולה על 4 שעות**. קונקשן ארוך מזה — לא להכניס לרשימה.
 
+**כלל תצוגה — חשוב:** לכל זוג תאריכים מציגים **כרטיס אחד בלבד — הזול ביותר שעומד בתנאי
+ההמתנה**. אפשרויות יקרות יותר באותם תאריכים לא נכנסות לעמוד. אם הזול הוא קונקשן ארוך
+והישירה יקרה ממנו במעט — ציין את זה בשדה `unknown` של אותו כרטיס.
+
+**משך הטיול גמיש:** 12–16 לילות, לא רק 14. זה כבר הוכיח את עצמו — 13 לילות יצאו זולים
+ב-₪150 לנוסע מ-14 לילות באותה יציאה. סרוק כמה משכים לכל תאריך יציאה.
+
 ## כלל הברזל
 
 > **אסור לכתוב מחיר שלא נקרא מדף שנטען בפועל באותה הרצה.**
@@ -63,6 +70,28 @@ https://il.kayak.com/flights/TLV-NRT/{YYYY-MM-DD}?sort=price_a&fs=stops=0
 ```
 
 **תמיד** סרוק גם את הזוג הרחוק ביותר שנפתח היום, כדי לתפוס מלאי חדש.
+
+### שליפה מהירה של התוצאות
+
+במקום לקרוא את כל הדף, הרץ את הסניפט הזה ב-`javascript_tool` אחרי הטעינה. הוא מחזיר
+את הזול ביותר שעומד בתנאי ההמתנה של 4 שעות:
+
+```js
+(function(){var t=document.body.innerText;
+if(/No matching flights found|No flights found/.test(t))return "NONE";
+if(!/Go to result details/.test(t))return "REJECTED/HOMEPAGE";
+var chunks=t.split(/Go to result details/).slice(1),out=[];
+chunks.forEach(function(c){c=c.slice(0,700);var p=c.match(/₪([\d,]+)/);if(!p)return;
+var lays=[...c.matchAll(/(\d+)h\s*(\d+)m layover/g)].map(m=>parseInt(m[1])*60+parseInt(m[2]));
+out.push({p:parseInt(p[1].replace(/,/g,'')),maxLay:lays.length?Math.max.apply(null,lays):0,
+h:c.split('\n').filter(x=>x.trim()).slice(0,13).join(' | ')});});
+var ok=out.filter(r=>r.maxLay<=240).sort((a,b)=>a.p-b.p);
+return JSON.stringify({cheapestOverall:out.length?Math.min.apply(null,out.map(r=>r.p)):null,
+best:ok.slice(0,2)},null,1);})()
+```
+
+`REJECTED/HOMEPAGE` = התאריכים מחוץ לאופק המכירה.
+`maxLay` הוא ההמתנה הארוכה ביותר בדקות; הסף הוא 240.
 
 **אפריל 2027:** סרוק זוגות של 14 יום בתוך החודש. שים לב ש**פסח חל 21–29/04/2027** —
 סמן בבירור כל מסלול שהחזרה שלו נופלת בערב החג או בחג עצמו.
