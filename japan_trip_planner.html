@@ -384,6 +384,10 @@
     color: var(--text-soft);
     font-style: italic;
   }
+  .note-entry { margin-bottom: 12px; font-size: 13.5px; line-height: 1.6; }
+  .note-entry-q { color: var(--text); }
+  .note-entry-a { color: var(--navy); margin-top: 4px; }
+  .note-entry-pending { color: var(--text-soft); font-style: italic; margin-top: 4px; font-size: 12.5px; }
 
   /* ============ TIMELINE ============ */
   .timeline { position: relative; padding-inline-start: 26px; margin: 18px 0; }
@@ -1636,9 +1640,11 @@
     var ta = document.getElementById('noteText');
     var text = ta.value.trim();
     if (!text) { ta.focus(); return; }
+    if (window.saveNoteToFirebase) window.saveNoteToFirebase(text);
     var subject = encodeURIComponent('[טיול יפן] הערה חדשה');
     var body = encodeURIComponent(text);
     window.location.href = 'mailto:ozs1976@gmail.com?subject=' + subject + '&body=' + body;
+    ta.value = '';
   }
 
   function switchTab(id) {
@@ -2011,6 +2017,86 @@
   updateAllProgress();
   // If the page ever loads with the map tab already active, init immediately too.
   if (document.getElementById('tab-map').classList.contains('active')) { initLeafletMap(); }
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, doc, setDoc, onSnapshot,
+    collection, addDoc, query, orderBy, limit, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  var firebaseConfig = {
+    apiKey: "AIzaSyCO__5PbCX6HJPwoYdZTrgtOOkcG2Kw6hw",
+    authDomain: "japan-trip-2027-f7352.firebaseapp.com",
+    projectId: "japan-trip-2027-f7352",
+    storageBucket: "japan-trip-2027-f7352.firebasestorage.app",
+    messagingSenderId: "244185870191",
+    appId: "1:244185870191:web:7bce63b23a3a5305ff429a",
+    measurementId: "G-HCDQM0T493"
+  };
+
+  var app = initializeApp(firebaseConfig);
+  var db = getFirestore(app);
+
+  /* ---- shared checklist sync ---- */
+  var dayBoxes = document.querySelectorAll('.dayChk');
+  var ckBoxes = document.querySelectorAll('.ckItem');
+  dayBoxes.forEach(function(cb, i){ cb.dataset.syncKey = 'day' + (i + 1); });
+  ckBoxes.forEach(function(cb, i){ cb.dataset.syncKey = 'ck' + (i + 1); });
+  var allSyncBoxes = document.querySelectorAll('.dayChk, .ckItem');
+  var checklistRef = doc(db, 'checklist', 'state');
+  var applyingRemote = false;
+
+  onSnapshot(checklistRef, function(snap) {
+    if (!snap.exists()) return;
+    var data = snap.data();
+    applyingRemote = true;
+    allSyncBoxes.forEach(function(cb) {
+      var key = cb.dataset.syncKey;
+      if (key in data) cb.checked = !!data[key];
+    });
+    applyingRemote = false;
+    if (window.updateAllProgress) window.updateAllProgress();
+  }, function(err) { console.error('checklist sync error', err); });
+
+  allSyncBoxes.forEach(function(cb) {
+    cb.addEventListener('change', function() {
+      if (applyingRemote) return;
+      var patch = {};
+      patch[cb.dataset.syncKey] = cb.checked;
+      setDoc(checklistRef, patch, { merge: true }).catch(function(e) { console.error('checklist write failed', e); });
+    });
+  });
+
+  /* ---- shared notes log ---- */
+  window.saveNoteToFirebase = function(text) {
+    addDoc(collection(db, 'notes'), {
+      text: text,
+      reply: null,
+      createdAt: serverTimestamp()
+    }).catch(function(e) { console.error('note write failed', e); });
+  };
+
+  var notesQuery = query(collection(db, 'notes'), orderBy('createdAt', 'desc'), limit(20));
+  onSnapshot(notesQuery, function(snap) {
+    var logEl = document.getElementById('noteLog');
+    if (!logEl) return;
+    if (snap.empty) {
+      logEl.innerHTML = '<div class="note-log-empty">אין עדיין הערות ביומן המשותף.</div>';
+      return;
+    }
+    var html = '';
+    snap.forEach(function(docSnap) {
+      var n = docSnap.data();
+      html += '<div class="note-entry"><div class="note-entry-q">📝 ' + (n.text || '') + '</div>';
+      html += n.reply
+        ? '<div class="note-entry-a">🤖 ' + n.reply + '</div>'
+        : '<div class="note-entry-pending">ממתין לתשובה…</div>';
+      html += '</div>';
+    });
+    logEl.innerHTML = html;
+  }, function(err) { console.error('notes sync error', err); });
 </script>
 
 </body>
