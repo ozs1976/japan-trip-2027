@@ -1250,7 +1250,7 @@
     <textarea id="noteText" class="note-textarea" rows="3" placeholder="שורה 1: הקוד הסודי שלכם&#10;שורה 2: ההערה..."></textarea>
     <br>
     <button type="button" class="note-send-btn" onclick="sendNote()">📤 שלח הערה במייל</button>
-    <div id="noteSentMsg" style="display:none; font-size:12.5px; color:var(--green); margin-top:6px;">✔ נפתחה טיוטת מייל — אשרו שליחה באפליקציית המייל שלכם.</div>
+    <div id="noteSentMsg" style="display:none; font-size:12.5px; color:var(--green); margin-top:6px;">✔ נפתחה טיוטה ב-Gmail בכרטיסייה חדשה — לחצו "שלח" שם כדי לסיים.</div>
     <div class="note-log" id="noteLog">
       <div class="note-log-empty">יומן הערות ותשובות משותף למשפחה — הערות שאומתו ונענו יופיעו כאן.</div>
     </div>
@@ -1675,7 +1675,8 @@
     if (!text) { ta.focus(); return; }
     var subject = encodeURIComponent('[טיול יפן] הערה חדשה');
     var body = encodeURIComponent(text);
-    window.location.href = 'mailto:ozs1976@gmail.com?subject=' + subject + '&body=' + body;
+    var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=ozs1976%40gmail.com&su=' + subject + '&body=' + body;
+    window.open(gmailUrl, '_blank', 'noopener');
     ta.value = '';
     var msg = document.getElementById('noteSentMsg');
     if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 6000); }
