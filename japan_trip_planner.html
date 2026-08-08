@@ -327,7 +327,7 @@
   label.chk-item:hover { background: #f4f7fd; }
   label.chk-item input[type=checkbox] {
     margin-top: 3px;
-    width: 18px; height: 18px;
+    width: 20px; height: 20px;
     accent-color: var(--red);
     flex-shrink: 0;
     cursor: pointer;
@@ -336,6 +336,53 @@
   label.chk-item input:checked ~ span.done-text {
     color: #9aa5bd;
     text-decoration: line-through;
+  }
+
+  /* ============ NOTE BOX ============ */
+  .note-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+  }
+  .note-textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    resize: vertical;
+    min-height: 70px;
+    direction: rtl;
+  }
+  .note-textarea:focus { outline: none; border-color: var(--blue); }
+  .note-send-btn {
+    appearance: none;
+    border: none;
+    background: var(--navy);
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .note-send-btn:hover { background: var(--navy-light); }
+  .note-log {
+    margin-top: 14px;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+  .note-log-empty {
+    font-size: 13px;
+    color: var(--text-soft);
+    font-style: italic;
   }
 
   /* ============ TIMELINE ============ */
@@ -384,8 +431,10 @@
   a.link-card .ltxt .lt2 { font-size: 12px; color: var(--text-soft); }
 
   /* ============ BUDGET TABLE ============ */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table.budget {
     width: 100%;
+    min-width: 560px;
     border-collapse: collapse;
     background: var(--card);
     border-radius: 10px;
@@ -1081,6 +1130,7 @@
   </div>
 
   <h2 class="section-title">טבלה מלאה</h2>
+  <div class="table-scroll">
   <table class="budget">
     <tr><th>קטגוריה</th><th>טווח ב-₪</th><th>מקבילה ($ / ¥)</th><th>הערות</th></tr>
     <tr>
@@ -1138,6 +1188,7 @@
       <td>—</td>
     </tr>
   </table>
+  </div>
 
   <div class="notice" style="margin-top:16px;">
     <div class="t">💡 נקודה שכדאי לדעת</div>
@@ -1155,6 +1206,17 @@
   <div class="progress-wrap">
     <div class="progress-label"><span>משימות שהושלמו</span><span id="checklistProgressText" class="ltr-num">0 / 0</span></div>
     <div class="progress-track"><div class="progress-fill" id="checklistProgressFill"></div></div>
+  </div>
+
+  <h2 class="section-title">📝 הערה לתכנון — מכל מקום</h2>
+  <div class="note-box">
+    <p class="lead" style="font-size:13.5px; margin-top:0;">כתבו כאן הערה, שאלה, או בקשת שינוי לתכנון. לחיצה על "שלח הערה" תפתח את אפליקציית המייל עם ההודעה מוכנה — רק לאשר שליחה. בפעם הבאה שתפתחו שיחה עם Claude, הוא יקרא את ההערה וימשיך את התכנון לפיה.</p>
+    <textarea id="noteText" class="note-textarea" rows="3" placeholder="לדוגמה: תבדקו אם יש מלון קרוב לפושימי אינרי..."></textarea>
+    <br>
+    <button type="button" class="note-send-btn" onclick="sendNote()">📤 שלח הערה במייל</button>
+    <div class="note-log" id="noteLog">
+      <div class="note-log-empty">יומן הערות ותשובות משותף למשפחה עדיין לא מחובר — בקרוב יופיע כאן (דורש הקמת מסד נתונים משותף).</div>
+    </div>
   </div>
 
   <h2 class="section-title">ציר זמן מומלץ להכנות</h2>
@@ -1570,6 +1632,15 @@
 </script>
 
 <script>
+  function sendNote() {
+    var ta = document.getElementById('noteText');
+    var text = ta.value.trim();
+    if (!text) { ta.focus(); return; }
+    var subject = encodeURIComponent('[טיול יפן] הערה חדשה');
+    var body = encodeURIComponent(text);
+    window.location.href = 'mailto:ozs1976@gmail.com?subject=' + subject + '&body=' + body;
+  }
+
   function switchTab(id) {
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
     document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.remove('active'); });
