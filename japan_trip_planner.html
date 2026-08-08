@@ -1214,12 +1214,13 @@
 
   <h2 class="section-title">📝 הערה לתכנון — מכל מקום</h2>
   <div class="note-box">
-    <p class="lead" style="font-size:13.5px; margin-top:0;">כתבו כאן הערה, שאלה, או בקשת שינוי לתכנון. לחיצה על "שלח הערה" תפתח את אפליקציית המייל עם ההודעה מוכנה — רק לאשר שליחה. בפעם הבאה שתפתחו שיחה עם Claude, הוא יקרא את ההערה וימשיך את התכנון לפיה.</p>
-    <textarea id="noteText" class="note-textarea" rows="3" placeholder="לדוגמה: תבדקו אם יש מלון קרוב לפושימי אינרי..."></textarea>
+    <p class="lead" style="font-size:13.5px; margin-top:0;">כתבו כאן הערה, שאלה, או בקשת שינוי לתכנון. לחיצה על "שלח הערה" תפתח את אפליקציית המייל עם ההודעה מוכנה — רק לאשר שליחה. <b>שורה ראשונה = הקוד הסודי שלכם (בזיכרון, לא כתוב כאן), שורה שנייה ואילך = ההערה עצמה.</b> הבוט בודק את הקוד לפני שהוא נוגע בתוכן — בלי קוד תקין, ההערה לא תטופל. התשובה תופיע ביומן למטה תוך עד חצי שעה (07:00–24:00).</p>
+    <textarea id="noteText" class="note-textarea" rows="3" placeholder="שורה 1: הקוד הסודי שלכם&#10;שורה 2: ההערה..."></textarea>
     <br>
     <button type="button" class="note-send-btn" onclick="sendNote()">📤 שלח הערה במייל</button>
+    <div id="noteSentMsg" style="display:none; font-size:12.5px; color:var(--green); margin-top:6px;">✔ נפתחה טיוטת מייל — אשרו שליחה באפליקציית המייל שלכם.</div>
     <div class="note-log" id="noteLog">
-      <div class="note-log-empty">יומן הערות ותשובות משותף למשפחה עדיין לא מחובר — בקרוב יופיע כאן (דורש הקמת מסד נתונים משותף).</div>
+      <div class="note-log-empty">יומן הערות ותשובות משותף למשפחה — הערות שאומתו ונענו יופיעו כאן.</div>
     </div>
   </div>
 
@@ -1640,11 +1641,12 @@
     var ta = document.getElementById('noteText');
     var text = ta.value.trim();
     if (!text) { ta.focus(); return; }
-    if (window.saveNoteToFirebase) window.saveNoteToFirebase(text);
     var subject = encodeURIComponent('[טיול יפן] הערה חדשה');
     var body = encodeURIComponent(text);
     window.location.href = 'mailto:ozs1976@gmail.com?subject=' + subject + '&body=' + body;
     ta.value = '';
+    var msg = document.getElementById('noteSentMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 6000); }
   }
 
   function switchTab(id) {
@@ -2023,7 +2025,7 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
     getFirestore, doc, setDoc, onSnapshot,
-    collection, addDoc, query, orderBy, limit, serverTimestamp
+    collection, query, orderBy, limit
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   var firebaseConfig = {
@@ -2069,15 +2071,7 @@
     });
   });
 
-  /* ---- shared notes log ---- */
-  window.saveNoteToFirebase = function(text) {
-    addDoc(collection(db, 'notes'), {
-      text: text,
-      reply: null,
-      createdAt: serverTimestamp()
-    }).catch(function(e) { console.error('note write failed', e); });
-  };
-
+  /* ---- shared notes log (populated only by the authenticated email bot, not the browser) ---- */
   var notesQuery = query(collection(db, 'notes'), orderBy('createdAt', 'desc'), limit(20));
   onSnapshot(notesQuery, function(snap) {
     var logEl = document.getElementById('noteLog');
