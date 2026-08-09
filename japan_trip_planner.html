@@ -38,6 +38,22 @@
     scroll-behavior: smooth;
   }
 
+  /* ============ SKIP LINK ============ */
+  .skip-link {
+    position: absolute;
+    top: -60px;
+    inset-inline-start: 8px;
+    background: var(--red);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    z-index: 1000;
+    transition: top .15s ease;
+  }
+  .skip-link:focus { top: 8px; }
+
   /* ============ HEADER ============ */
   header.hero {
     background: linear-gradient(135deg, var(--navy) 0%, #2c4270 100%);
@@ -731,6 +747,8 @@
 </head>
 <body>
 
+<a href="#main" class="skip-link">דלגו לתוכן הראשי</a>
+
 <header class="hero">
   <h1>יפן, יולי 2027 — טיול משפחתי</h1>
   <div class="sub">14 יום · טוקיו · קיוטו · נארה · אוסקה · זוג + ילד בן 13 חובב פוקימון</div>
@@ -743,20 +761,20 @@
   </div>
 </header>
 
-<nav class="tabs" id="tabsNav">
-  <button class="active" onclick="switchTab('home')"><span class="tab-ic">🏠</span><span class="tab-lbl">ראשי</span></button>
-  <button onclick="switchTab('map')"><span class="tab-ic">🗺️</span><span class="tab-lbl">מסלול</span></button>
-  <button onclick="switchTab('flights')"><span class="tab-ic">✈️</span><span class="tab-lbl">טיסות</span></button>
-  <button onclick="switchTab('budget')"><span class="tab-ic">💰</span><span class="tab-lbl">תקציב</span></button>
-  <button onclick="switchTab('checklist')"><span class="tab-ic">✅</span><span class="tab-lbl">צ'ק-ליסט</span></button>
+<nav class="tabs" id="tabsNav" role="tablist" aria-label="טאבים ראשיים">
+  <button class="active" role="tab" aria-selected="true" aria-controls="tab-home" id="navtab-home" onclick="switchTab('home')"><span class="tab-ic">🏠</span><span class="tab-lbl">ראשי</span></button>
+  <button role="tab" aria-selected="false" aria-controls="tab-map" id="navtab-map" onclick="switchTab('map')"><span class="tab-ic">🗺️</span><span class="tab-lbl">מסלול</span></button>
+  <button role="tab" aria-selected="false" aria-controls="tab-flights" id="navtab-flights" onclick="switchTab('flights')"><span class="tab-ic">✈️</span><span class="tab-lbl">טיסות</span></button>
+  <button role="tab" aria-selected="false" aria-controls="tab-budget" id="navtab-budget" onclick="switchTab('budget')"><span class="tab-ic">💰</span><span class="tab-lbl">תקציב</span></button>
+  <button role="tab" aria-selected="false" aria-controls="tab-checklist" id="navtab-checklist" onclick="switchTab('checklist')"><span class="tab-ic">✅</span><span class="tab-lbl">צ'ק-ליסט</span></button>
 </nav>
 
-<main>
+<main id="main">
 
 <!-- =================================================================== -->
 <!-- TAB 1: HOME -->
 <!-- =================================================================== -->
-<section id="tab-home" class="tab-panel active">
+<section id="tab-home" class="tab-panel active" role="tabpanel" aria-labelledby="navtab-home">
 
   <h2 class="section-title">תמונת מצב</h2>
   <p class="lead">מסמך עבודה חי לתכנון הטיול — אפשר לסמן ריבועים, לעבור בין הטאבים, ולעדכן יחד לאורך הדרך. הסימונים <b>משותפים לכל המשפחה ונשמרים לצמיתות</b> — כל מי שפותח את האתר, מכל מכשיר, רואה את אותו מצב בזמן אמת.</p>
@@ -823,7 +841,7 @@
 <!-- =================================================================== -->
 <!-- TAB 2: MAP + ITINERARY -->
 <!-- =================================================================== -->
-<section id="tab-map" class="tab-panel">
+<section id="tab-map" class="tab-panel" role="tabpanel" aria-labelledby="navtab-map">
 
   <h2 class="section-title">שלוש הצעות מסלול — טרם הוכרע</h2>
   <div class="notice">
@@ -1061,7 +1079,7 @@
 <!-- =================================================================== -->
 <!-- TAB 3: FLIGHTS -->
 <!-- =================================================================== -->
-<section id="tab-flights" class="tab-panel">
+<section id="tab-flights" class="tab-panel" role="tabpanel" aria-labelledby="navtab-flights">
 
   <div class="check-banner" id="checkBanner"></div>
 
@@ -1141,7 +1159,7 @@
 <!-- =================================================================== -->
 <!-- TAB 4: BUDGET -->
 <!-- =================================================================== -->
-<section id="tab-budget" class="tab-panel">
+<section id="tab-budget" class="tab-panel" role="tabpanel" aria-labelledby="navtab-budget">
 
   <h2 class="section-title">הערכת תקציב (2 מבוגרים + ילד, 14 יום)</h2>
 
@@ -1236,7 +1254,7 @@
 <!-- =================================================================== -->
 <!-- TAB 4: CHECKLIST + LINKS -->
 <!-- =================================================================== -->
-<section id="tab-checklist" class="tab-panel">
+<section id="tab-checklist" class="tab-panel" role="tabpanel" aria-labelledby="navtab-checklist">
 
   <h2 class="section-title">התקדמות כללית</h2>
   <div class="progress-wrap">
@@ -1684,10 +1702,12 @@
 
   function switchTab(id) {
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
-    document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
     document.getElementById('tab-' + id).classList.add('active');
     var idx = { home:0, map:1, flights:2, budget:3, checklist:4 }[id];
-    document.querySelectorAll('nav.tabs button')[idx].classList.add('active');
+    var activeBtn = document.querySelectorAll('nav.tabs button')[idx];
+    activeBtn.classList.add('active');
+    activeBtn.setAttribute('aria-selected', 'true');
     window.scrollTo({top:0, behavior:'smooth'});
     if (id === 'map') {
       setTimeout(function(){
