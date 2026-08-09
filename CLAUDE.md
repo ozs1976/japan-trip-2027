@@ -48,6 +48,8 @@
 - **`#flightsData`** — בלוק `<script type="application/json">` עם כל נתוני הטיסות והיסטוריית המחירים. **מקור האמת היחיד**; המשימה היומית עורכת אותו בלבד. `renderFlights()` בונה ממנו את הטאב ומחשב את חץ השינוי משתי הרשומות האחרונות ב-`priceHistory`. **אף פעם לא למחוק רשומות היסטוריה** — בלעדיהן אין השוואת מחיר.
 - המפה מאותחלת עצלנית בכניסה הראשונה לטאב מפה (`switchTab` קורא ל-`initLeafletMap`, אחרת `invalidateSize`).
 - **בלוק Firebase** (`<script type="module">`, ממש לפני `</body>`) — מכיל את `firebaseConfig` (לא סוד, מותר גלוי), ומחבר צ'ק-ליסט משותף (`data-syncKey` על כל `.dayChk`/`.ckItem` → `doc('checklist','state')`) ויומן הערות (`#noteLog` ← collection `notes`). ראו סעיף 8.
+- **מצב כהה (Dark Mode)** — `toggleTheme()` שומר ב-`localStorage['japanTripTheme']`, ומיושם מוקדם ב-`<head>` (script קטן לפני ה-`<style>`) כדי למנוע הבזק צבע לא נכון. **כלל חשוב לעריכות עתידיות בצבעים:** `--navy`/`--red`/`--green`/`--gray` הם הצבעים המקוריים (עדיין נכונים לשימוש כ-**רקע** עם טקסט לבן — כמו `table.budget th`, `.note-send-btn`). לכל אחד יש גם גרסת `-text` (`--navy-text` וכו') המשמשת **רק** לצבע טקסט על רקע `--card`/`--bg` — **אם מוסיפים `color: var(--navy)` חדש, זו כמעט תמיד טעות; צריך `var(--navy-text)`.** רקעים "פסטליים" (תיבות notice/chip/pm-box) עוברים דרך `--tint-blue/green/gold/red/row` ולא צבע HEX ישיר — אחרת יישארו "אזורי אור" בהירים במצב כהה.
+- **נגישות** — `role="tablist"`/`role="tab"`/`aria-selected` על הניווט (מתעדכן ב-`switchTab()`), קישור "דלג לתוכן" (`.skip-link`) בתחילת ה-`<body>`, טבעת מיקוד גלובלית (`:focus-visible`).
 
 ### כללי עברית / RTL — חשוב
 
