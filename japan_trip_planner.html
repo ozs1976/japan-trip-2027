@@ -161,6 +161,73 @@
   }
   .theme-toggle:hover { background: rgba(255,255,255,0.28); }
 
+  .auth-toggle {
+    position: absolute;
+    top: 14px;
+    inset-inline-start: 16px;
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+    cursor: pointer;
+    z-index: 5;
+    transition: background .15s ease;
+  }
+  .auth-toggle:hover { background: rgba(255,255,255,0.28); }
+  .auth-toggle.is-signed-in { background: rgba(80,200,140,0.4); border-color: rgba(80,200,140,0.7); }
+  .auth-panel {
+    position: absolute;
+    top: 58px;
+    inset-inline-start: 16px;
+    z-index: 20;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    width: 240px;
+    max-width: 80vw;
+    text-align: start;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+    color: var(--text);
+  }
+  .auth-panel input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    direction: ltr;
+    text-align: start;
+  }
+  .auth-panel .auth-btn {
+    appearance: none;
+    border: none;
+    background: var(--navy);
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-inline-end: 6px;
+    margin-bottom: 6px;
+    cursor: pointer;
+  }
+  .auth-panel .auth-btn:hover { background: var(--navy-light); }
+  .auth-panel .auth-btn.secondary { background: var(--text-soft); }
+  .auth-error { color: var(--red-text); font-size: 12px; margin-top: 4px; }
+  .auth-user-row { font-size: 13px; margin-bottom: 8px; word-break: break-all; }
+  label.dchk.locked, label.chk-item.locked { opacity: 0.5; }
+
   header.hero h1 {
     margin: 0 0 4px;
     font-size: clamp(22px, 4vw, 34px);
@@ -841,6 +908,22 @@
 
 <header class="hero">
   <button type="button" id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="החלפת מצב תצוגה כהה/בהיר">🌙</button>
+  <button type="button" id="authToggleBtn" class="auth-toggle" aria-haspopup="true" aria-expanded="false" aria-label="התחברות" onclick="toggleAuthPanel()">👤</button>
+  <div id="authPanel" class="auth-panel" style="display:none;" role="dialog" aria-label="התחברות">
+    <div id="authLoggedOut">
+      <input type="email" id="authEmail" placeholder="אימייל" autocomplete="email">
+      <input type="password" id="authPassword" placeholder="סיסמה" autocomplete="current-password">
+      <div>
+        <button type="button" class="auth-btn" onclick="authSignIn()">התחברות</button>
+        <button type="button" class="auth-btn secondary" onclick="authSignUp()">הרשמה (פעם ראשונה)</button>
+      </div>
+      <div id="authError" class="auth-error" style="display:none;"></div>
+    </div>
+    <div id="authLoggedIn" style="display:none;">
+      <div class="auth-user-row ltr-num" id="authUserEmail"></div>
+      <button type="button" class="auth-btn secondary" onclick="authSignOutClick()">התנתקות</button>
+    </div>
+  </div>
   <h1>יפן, יולי 2027 — טיול משפחתי</h1>
   <div class="sub">14 יום · טוקיו · קיוטו · נארה · אוסקה · זוג + ילד בן 13 חובב פוקימון</div>
   <div class="badges">
@@ -1364,11 +1447,11 @@
 
   <h2 class="section-title">📝 הערה לתכנון — מכל מקום</h2>
   <div class="note-box">
-    <p class="lead" style="font-size:13.5px; margin-top:0;">כתבו כאן הערה, שאלה, או בקשת שינוי לתכנון. לחיצה על "שלח הערה" תפתח טיוטה ב-Gmail — רק לאשר שליחה. התשובה תופיע ביומן למטה תוך עד חצי שעה (07:00–24:00).</p>
+    <p class="lead" style="font-size:13.5px; margin-top:0;">צריך להתחבר (כפתור 👤 למעלה) כדי לשלוח. כתבו כאן הערה, שאלה, או הוראה לתכנון — התראה מגיעה מיד לטלגרם, והתשובה מופיעה ביומן למטה.</p>
     <textarea id="noteText" class="note-textarea" rows="3" placeholder="ההערה שלכם..."></textarea>
     <br>
-    <button type="button" class="note-send-btn" onclick="sendNote()">📤 שלח הערה במייל</button>
-    <div id="noteSentMsg" style="display:none; font-size:12.5px; color:var(--green-text); margin-top:6px;">✔ נפתחה טיוטה ב-Gmail בכרטיסייה חדשה — לחצו "שלח" שם כדי לסיים.</div>
+    <button type="button" id="noteSendBtn" class="note-send-btn" onclick="sendNote()">📤 שלח הערה</button>
+    <div id="noteSentMsg" style="display:none; font-size:12.5px; color:var(--green-text); margin-top:6px;"></div>
     <div class="note-log" id="noteLog">
       <div class="note-log-empty">יומן הערות ותשובות משותף למשפחה — הערות שאומתו ונענו יופיעו כאן.</div>
     </div>
@@ -1786,17 +1869,53 @@
 </script>
 
 <script>
+  // TODO: update after `wrangler deploy` (see worker/wrangler.toml) with the real *.workers.dev URL.
+  var NOTE_WORKER_URL = 'https://japan-trip-notes.YOUR-SUBDOMAIN.workers.dev/note';
+
   function sendNote() {
     var ta = document.getElementById('noteText');
     var text = ta.value.trim();
-    if (!text) { ta.focus(); return; }
-    var subject = encodeURIComponent('[טיול יפן] הערה חדשה');
-    var body = encodeURIComponent(text);
-    var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=ozs1976%40gmail.com&su=' + subject + '&body=' + body;
-    window.open(gmailUrl, '_blank', 'noopener');
-    ta.value = '';
     var msg = document.getElementById('noteSentMsg');
-    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 6000); }
+    if (!text) { ta.focus(); return; }
+
+    var user = window.currentAuthUser;
+    if (!user) {
+      if (msg) { msg.style.color = 'var(--red-text)'; msg.textContent = '⚠️ צריך להתחבר קודם (כפתור 👤 למעלה).'; msg.style.display = 'block'; }
+      return;
+    }
+
+    var btn = document.getElementById('noteSendBtn');
+    btn.disabled = true;
+    btn.textContent = 'שולח…';
+
+    fetch(NOTE_WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: text,
+        senderName: user.displayName || user.email,
+        senderEmail: user.email
+      })
+    }).then(function(res) {
+      if (!res.ok) throw new Error('bad status ' + res.status);
+      return res.json();
+    }).then(function(data) {
+      ta.value = '';
+      if (msg) {
+        msg.style.color = 'var(--green-text)';
+        msg.textContent = data.verified
+          ? '✔ ההוראה נשלחה ומאומתת — תטופל בקרוב, והתשובה תופיע כאן ביומן.'
+          : '✔ ההערה נשלחה — התראה נשלחה בטלגרם, והתשובה תופיע כאן ביומן.';
+        msg.style.display = 'block';
+        setTimeout(function(){ msg.style.display = 'none'; }, 8000);
+      }
+    }).catch(function(e) {
+      console.error('note send failed', e);
+      if (msg) { msg.style.color = 'var(--red-text)'; msg.textContent = '⚠️ שליחת ההערה נכשלה. נסו שוב בעוד רגע.'; msg.style.display = 'block'; }
+    }).finally(function() {
+      btn.disabled = false;
+      btn.textContent = '📤 שלח הערה';
+    });
   }
 
   function isDarkThemeActive() {
@@ -2201,6 +2320,10 @@
     getFirestore, doc, setDoc, onSnapshot,
     collection, query, orderBy, limit
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+    createUserWithEmailAndPassword, signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
   var firebaseConfig = {
     apiKey: "AIzaSyCO__5PbCX6HJPwoYdZTrgtOOkcG2Kw6hw",
@@ -2214,40 +2337,30 @@
 
   var app = initializeApp(firebaseConfig);
   var db = getFirestore(app);
+  var auth = getAuth(app);
 
-  /* ---- shared checklist sync ---- */
+  /* ---- checklist sync setup (subscription itself is gated below, inside onAuthStateChanged) ---- */
   var dayBoxes = document.querySelectorAll('.dayChk');
   var ckBoxes = document.querySelectorAll('.ckItem');
   dayBoxes.forEach(function(cb, i){ cb.dataset.syncKey = 'day' + (i + 1); });
   ckBoxes.forEach(function(cb, i){ cb.dataset.syncKey = 'ck' + (i + 1); });
   var allSyncBoxes = document.querySelectorAll('.dayChk, .ckItem');
   var checklistRef = doc(db, 'checklist', 'state');
+  var notesQuery = query(collection(db, 'notes'), orderBy('createdAt', 'desc'), limit(20));
   var applyingRemote = false;
-
-  onSnapshot(checklistRef, function(snap) {
-    if (!snap.exists()) return;
-    var data = snap.data();
-    applyingRemote = true;
-    allSyncBoxes.forEach(function(cb) {
-      var key = cb.dataset.syncKey;
-      if (key in data) cb.checked = !!data[key];
-    });
-    applyingRemote = false;
-    if (window.updateAllProgress) window.updateAllProgress();
-  }, function(err) { console.error('checklist sync error', err); });
+  var unsubChecklist = null;
+  var unsubNotes = null;
 
   allSyncBoxes.forEach(function(cb) {
     cb.addEventListener('change', function() {
-      if (applyingRemote) return;
+      if (applyingRemote || !window.currentAuthUser) return;
       var patch = {};
       patch[cb.dataset.syncKey] = cb.checked;
       setDoc(checklistRef, patch, { merge: true }).catch(function(e) { console.error('checklist write failed', e); });
     });
   });
 
-  /* ---- shared notes log (populated only by the authenticated email bot, not the browser) ---- */
-  var notesQuery = query(collection(db, 'notes'), orderBy('createdAt', 'desc'), limit(20));
-  onSnapshot(notesQuery, function(snap) {
+  function renderNotesSnapshot(snap) {
     var logEl = document.getElementById('noteLog');
     if (!logEl) return;
     if (snap.empty) {
@@ -2257,14 +2370,111 @@
     var html = '';
     snap.forEach(function(docSnap) {
       var n = docSnap.data();
-      html += '<div class="note-entry"><div class="note-entry-q">📝 ' + (n.text || '') + '</div>';
+      var who = n.senderName ? ' — ' + n.senderName : '';
+      html += '<div class="note-entry"><div class="note-entry-q">📝 ' + (n.text || '') + who + '</div>';
       html += n.reply
         ? '<div class="note-entry-a">🤖 ' + n.reply + '</div>'
         : '<div class="note-entry-pending">ממתין לתשובה…</div>';
       html += '</div>';
     });
     logEl.innerHTML = html;
-  }, function(err) { console.error('notes sync error', err); });
+  }
+
+  /* ---- auth state drives everything: gated reads/writes only happen while signed in ---- */
+  onAuthStateChanged(auth, function(user) {
+    window.currentAuthUser = user;
+    updateAuthUI(user);
+
+    allSyncBoxes.forEach(function(cb){ cb.disabled = !user; });
+    document.querySelectorAll('label.dchk, label.chk-item').forEach(function(lbl){
+      lbl.classList.toggle('locked', !user);
+    });
+
+    if (unsubChecklist) { unsubChecklist(); unsubChecklist = null; }
+    if (unsubNotes) { unsubNotes(); unsubNotes = null; }
+
+    var logEl = document.getElementById('noteLog');
+
+    if (user) {
+      unsubChecklist = onSnapshot(checklistRef, function(snap) {
+        if (!snap.exists()) return;
+        var data = snap.data();
+        applyingRemote = true;
+        allSyncBoxes.forEach(function(cb) {
+          var key = cb.dataset.syncKey;
+          if (key in data) cb.checked = !!data[key];
+        });
+        applyingRemote = false;
+        if (window.updateAllProgress) window.updateAllProgress();
+      }, function(err) { console.error('checklist sync error', err); });
+
+      unsubNotes = onSnapshot(notesQuery, renderNotesSnapshot, function(err) {
+        console.error('notes sync error', err);
+      });
+    } else {
+      if (logEl) logEl.innerHTML = '<div class="note-log-empty">התחברו (👤 למעלה) כדי לראות את יומן ההערות.</div>';
+    }
+  });
+
+  /* ---- auth UI ---- */
+  function updateAuthUI(user) {
+    var btn = document.getElementById('authToggleBtn');
+    var loggedOut = document.getElementById('authLoggedOut');
+    var loggedIn = document.getElementById('authLoggedIn');
+    var emailEl = document.getElementById('authUserEmail');
+    if (btn) btn.classList.toggle('is-signed-in', !!user);
+    if (loggedOut) loggedOut.style.display = user ? 'none' : 'block';
+    if (loggedIn) loggedIn.style.display = user ? 'block' : 'none';
+    if (emailEl) emailEl.textContent = user ? ('מחובר/ת: ' + user.email) : '';
+  }
+
+  function showAuthError(msg) {
+    var el = document.getElementById('authError');
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function clearAuthError() {
+    var el = document.getElementById('authError');
+    if (el) el.style.display = 'none';
+  }
+
+  window.toggleAuthPanel = function() {
+    var panel = document.getElementById('authPanel');
+    var btn = document.getElementById('authToggleBtn');
+    if (!panel) return;
+    var willShow = panel.style.display === 'none';
+    panel.style.display = willShow ? 'block' : 'none';
+    if (btn) btn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+  };
+
+  window.authSignIn = function() {
+    clearAuthError();
+    var email = document.getElementById('authEmail').value.trim();
+    var password = document.getElementById('authPassword').value;
+    if (!email || !password) { showAuthError('נא למלא אימייל וסיסמה.'); return; }
+    signInWithEmailAndPassword(auth, email, password).catch(function(e) {
+      console.error('sign-in failed', e);
+      showAuthError('התחברות נכשלה — בדקו אימייל/סיסמה.');
+    });
+  };
+
+  window.authSignUp = function() {
+    clearAuthError();
+    var email = document.getElementById('authEmail').value.trim();
+    var password = document.getElementById('authPassword').value;
+    if (!email || !password) { showAuthError('נא למלא אימייל וסיסמה.'); return; }
+    if (password.length < 6) { showAuthError('הסיסמה צריכה לפחות 6 תווים.'); return; }
+    createUserWithEmailAndPassword(auth, email, password).catch(function(e) {
+      console.error('sign-up failed', e);
+      showAuthError('הרשמה נכשלה: ' + (e.code === 'auth/email-already-in-use' ? 'האימייל כבר רשום — נסו להתחבר.' : 'שגיאה כללית.'));
+    });
+  };
+
+  window.authSignOutClick = function() {
+    signOut(auth).catch(function(e) { console.error('sign-out failed', e); });
+  };
 </script>
 
 </body>

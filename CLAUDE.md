@@ -19,6 +19,8 @@
 | `CLAUDE.md` | הקובץ הזה — זיכרון פרויקט |
 | `DECISIONS.md` | יומן החלטות כרונולוגי |
 | `FLIGHTS_TASK.md` | runbook של הבדיקה היומית של הטיסות — **לקרוא לפני כל נגיעה בנתוני טיסות** |
+| `TELEGRAM_INSTRUCTION_TASK.md` | runbook של מנגנון "הערה/הוראה מהאתר" (Worker+טלגרם+`claude -p`) — **לקרוא לפני כל נגיעה במנגנון הזה** |
+| `NOTE_WATCHER_TASK.md` | **מוחלף/היסטורי** — runbook הישן (סריקת מייל), נשמר עד שהמנגנון החדש יאומת חי |
 
 **אין ואל תיצור PDF.** הפורמט הנבחר הוא HTML בלבד. (בשיחות קודמות דובר גם על PDF — זה בוטל.)
 
@@ -34,7 +36,7 @@
 | 🗺️ מסלול ומפה | `tab-map` | **3 כרטיסי הצעות מסלול** (`.route-card`) בראש הטאב, ואז מפת Leaflet + `city-block`/`day-card` לכל עיר, עם צ'קבוקס `.dayChk` לכל יום |
 | ✈️ טיסות | `tab-flights` | באנר "בדיקה אחרונה", כרטיסי טיסה עם חצי שינוי מחיר, תאריכים בלי ישירה, המלצת קנייה, קישורים חיים |
 | 💰 תקציב | `tab-budget` | תיבת שער חליפין, גרף עמודות, טבלת `table.budget` מלאה |
-| ✅ צ'ק-ליסט | `tab-checklist` | קופסת "הערה" (`.note-box`, `sendNote()`) → מייל, ציר זמן הכנות, קבוצות משימות עם `.ckItem`, רשת קישורים |
+| ✅ צ'ק-ליסט | `tab-checklist` | קופסת "הערה" (`.note-box`, `sendNote()`) → Cloudflare Worker + טלגרם (ראו §8ד), ציר זמן הכנות, קבוצות משימות עם `.ckItem`, רשת קישורים |
 
 ### נקודות מפתח בקוד (למי שבא לערוך)
 
@@ -156,6 +158,20 @@
    - **מלכודת שנתקלתי בה:** ה-skill "schedule" יוצר **routines בענן** (`RemoteTrigger`) — סשן מבודד לגמרי בלי גישה לקבצים מקומיים, בלי ה-git credentials המקומיים, ומינימום שעה בין הרצות. זה **לא מתאים** למשימות שצריכות קובץ סוד מקומי/push עם GCM כמו כאן. המשימה המתוזמנת הנכונה היא `mcp__scheduled-tasks__create_scheduled_task` — אותה מערכת בדיוק שמריצה את `japan-daily-flight-check`. אם בעתיד תתבקש עוד משימה מתוזמנת דומה — להשתמש ישר בכלי הזה, לא בסקיל "schedule".
    - **הרצה ידנית "עכשיו":** אפשר מתוך אזור "Scheduled" בסיידבר של Claude Code — בלי לבנות מנגנון נוסף.
 5. **נשקל ונדחה בשלב זה:** צ'אט AI חי בתוך האתר (Cloudflare Worker + מפתח Anthropic API) — עלות אמיתית (אם כי קטנה) ומאמץ הקמה גדול יותר. אפשרי כשדרוג עתידי מעל אותו Firebase.
+
+### ד. רפורמה: Worker+טלגרם+Auth במקום סריקת מייל כל 30 דקות — **בתהליך, קוד נכתב 12/08/2026, טרם נפרס/נבדק חי**
+
+**הסיבה לרפורמה:** `japan-note-watcher` (סעיף ב' למעלה) היה מריץ סוכן Claude Code מלא כל 30 דקות, גם כשלא הגיע כלום — בזבוז טוקנים על "כלום לא קרה". המשתמש ביקש גם התחברות לאתר (כדי שלא כל מבקר אנונימי יוכל לסמן צ'ק-ליסט משותף), וגם שהערה מהאתר תוכל לתת לקלוד **הוראה אמיתית לביצוע** (מידע/שינוי בקובץ/commit+push) — לא רק רישום ביומן. פירוט מלא, כולל שלוש האופציות שהוצגו ולמה זו נבחרה: `DECISIONS.md`, רשומת 12/08/2026. **runbook מלא: `TELEGRAM_INSTRUCTION_TASK.md`.**
+
+**הארכיטקטורה שנבחרה:** Cloudflare Worker (קוד טהור, לא קלוד) הוא השוער — בודק סיסמה, כותב Firestore, דוחף טלגרם. סקריפט מקומי לא-AI (`scripts\note-poller.ps1`, Windows Scheduled Task כל 1–2 דקות) בודק Firestore בעצמו (REST זול, אפס טוקנים), ומפעיל `claude -p` **רק** כשיש הוראה מאומתת ממתינה — לא בלוח זמנים קבוע. כך: אפס בזבוז טוקנים בהמתנה, אפס עלות $ נוספת (`claude -p` על אותו מנוי Pro), וקלוד עדיין יכול לערוך קבצים ולדחוף בפועל (דבר ששרת ענן לבדו לא יכול).
+
+- **קבצים חדשים:** `worker/wrangler.toml` + `worker/src/index.js` (Worker), `scripts\note-poller.ps1` (הפולר המקומי). קוד נכתב ונבדק תחבירית (`node --check`), **טרם נפרס**.
+- **בדיקת הסיסמה עברה לגמרי ל-Worker** — הוא שומר עותק שלה כ-secret (`NOTE_PASSWORD`, דרך `wrangler secret put`). קלוד (כש-`claude -p` מופעל) כבר לא קורא/משווה סיסמה בעצמו; הקובץ המקומי הישן `secret.txt` הופך מיותר.
+- **`sendNote()` ב-`japan_trip_planner.html` נכתב מחדש** — `fetch()` ל-`POST /note` של ה-Worker במקום פתיחת Gmail. משתנה `NOTE_WORKER_URL` בקוד מכיל כרגע placeholder (`https://japan-trip-notes.YOUR-SUBDOMAIN.workers.dev/note`) — **חובה לעדכן בכתובת האמיתית אחרי `wrangler deploy`**.
+- **Firebase Auth (Email/Password) נוסף לאתר** — כפתור 👤 בהדר (ליד מצב כהה), טופס התחברות/הרשמה. שליחת הערה **וגם** סימון צ'ק-ליסט דורשים התחברות עכשיו. `.dayChk`/`.ckItem` מקבלים `disabled` כשלא מחוברים; ה-`onSnapshot` על הצ'ק-ליסט וגם על יומן ההערות (`#noteLog`) נרשמים רק בתוך `onAuthStateChanged` — לא גורף כמו קודם.
+- **כללי Firestore חדשים נדרשים** (המשתמש מדביק בקונסולה בעצמו, כמו בעבר — חוסם בטיחות מנע ממני להקליד כללים ישירות): `checklist` ו-`notes` בקריאה דורשים `request.auth != null && request.auth.token.email in [...]` (רשימת מיילי המשפחה). כתיבה ל-`notes` נשארת פתוחה (`if true`) — כותב רק ה-Worker, לא הדפדפן.
+- **מה עוד חסר לפני שזה חי (כל השלבים אצל המשתמש):** יצירת בוט טלגרם + `chat_id` (BotFather), חשבון Cloudflare חינמי + `wrangler login` + `wrangler secret put` (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID / TELEGRAM_WEBHOOK_SECRET / NOTE_PASSWORD) + `wrangler deploy`, חיבור ה-webhook של טלגרם, הפעלת ספק Email/Password ב-Firebase Console, הדבקת כללי ה-Firestore החדשים, רישום `note-poller.ps1` כ-Scheduled Task, הגדרת הרשאות ל-`claude -p --dangerously-skip-permissions` (כבר בקוד הסקריפט) בתוך `C:\claude\Japan` בלבד.
+- **פרישת הישן (רק אחרי אימות קצה-לקצה חי):** מחיקת המשימה המתוזמנת `japan-note-watcher` (כבר מושבתת), מחיקת `NOTE_WATCHER_TASK.md` (סומן ⚠️ מוחלף בינתיים), מחיקת `secret.txt` המקומי.
 
 ### ג. אירוח — GitHub Pages ✅ חי מ-09/08/2026
 **כתובת האתר החי: https://ozs1976.github.io/japan-trip-2027/**

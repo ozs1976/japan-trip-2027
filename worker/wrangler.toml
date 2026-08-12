@@ -1,0 +1,13 @@
+name = "japan-trip-notes"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+FIRESTORE_PROJECT_ID = "japan-trip-2027-f7352"
+ALLOWED_ORIGIN = "https://ozs1976.github.io"
+
+# Secrets — never listed here. Set once per environment with:
+#   wrangler secret put TELEGRAM_BOT_TOKEN
+#   wrangler secret put TELEGRAM_CHAT_ID
+#   wrangler secret put TELEGRAM_WEBHOOK_SECRET
+#   wrangler secret put NOTE_PASSWORD
